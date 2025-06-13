@@ -16,7 +16,7 @@ export default function ReligiousQuotes() {
   ]
 
   return (
-    <section className="py-12 bg-dharmic-blue text-white">
+    <section className="py-12 bg-bhagwa-light text-white">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold mb-8 text-center font-serif">पवित्र वचन</h2>
         

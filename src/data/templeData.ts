@@ -23,8 +23,7 @@ export const temples: Temple[] = [
       "कुंभ मेले के समय लाखों श्रद्धालु यहाँ दर्शन करने आते हैं। यह मंदिर संकट मोचन के रूप में प्रसिद्ध है।",
     visitingHours: "सुबह 5 बजे से रात 10 बजे तक",
     location: "संगम के पास, प्रयागराज",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/0/0f/Bade_Hanuman_Ji_Allahabad.jpg",
+    image: "/images/bade_hanuman_ji_temple.jpeg",
     specialFeatures: [
       "हनुमान जी की लेटी हुई मूर्ति",
       "संगम के समीप",
@@ -42,7 +41,7 @@ export const temples: Temple[] = [
     visitingHours: "सुबह 6 बजे से रात 9 बजे तक",
     location: "अलोपिबाग, प्रयागराज",
     image:
-      "https://upload.wikimedia.org/wikipedia/commons/3/33/Alopi_Devi_Mandir.jpg",
+      "/images/Alopi_Devi_Mandir.jpeg",
     specialFeatures: [
       "शक्तिपीठ के रूप में मान्यता",
       "स्थानीय श्रद्धालुओं में अत्यधिक आस्था",
@@ -60,7 +59,7 @@ export const temples: Temple[] = [
     visitingHours: "सुबह 7 बजे से शाम 6 बजे तक",
     location: "इलाहाबाद किला परिसर",
     image:
-      "https://upload.wikimedia.org/wikipedia/commons/1/1a/Patalpuri_Mandir_Allahabad_Fort.jpg",
+      "/images/Patalpuri.jpeg",
     specialFeatures: [
       "अंडरग्राउंड मंदिर",
       "अक्षयवट वृक्ष की निकटता",
@@ -77,8 +76,7 @@ export const temples: Temple[] = [
       "प्रयागराज के इन प्रमुख शिव मंदिरों में से एक, जहां श्रावण और शिवरात्रि के दौरान भारी भीड़ होती है।",
     visitingHours: "सुबह 6 बजे से शाम 8 बजे तक",
     location: "त्रिवेणी संगम के पास, गंगा तट, प्रयागराज",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/a/ac/Shankar_Viman_Mandapam_Allahabad.jpg",
+    image: "/images/shankar_viman_mandapam.jpg",
     specialFeatures: [
       "चार मंज़िला दक्षिण भारतीय शैली",
       "विमन शैली में शिव मंदिर",
@@ -95,8 +93,7 @@ export const temples: Temple[] = [
       "यह 51 शक्तिपीठों में से एक है और दुर्गा पूजा के समय ख़ास श्रद्धा मिलती है।",
     visitingHours: "5:30 AM – 10:00 PM",
     location: "मीरा पुर, प्रयागराज",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/7/79/Lalita_Devi_Mandir.jpg",
+    image: "/images/Shri-Lalita-devi-temple-prayagraj-1.webp",
     specialFeatures: [
       "शिवलिंग (पारा) की प्रतिकृति",
       "नवरात्रि व दुर्गा पूजा में विशेष सजावट",
@@ -112,8 +109,7 @@ export const temples: Temple[] = [
     importance: "यह शहर का एक प्राचीन मंदिर है जहाँ नाग देवता की पूजा होती है।",
     visitingHours: "सुबह 6 बजे से शाम 8 बजे तक",
     location: "दरगंज, गंगा तट, प्रयागराज",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/d/dd/Nagvasuki_Mandir_Allahabad.jpg",
+    image: "/images/NaagvasukiTemple.jpg",
     specialFeatures: [
       "नाग पंचमी में विशेष पूजा",
       "गंगा किनारे स्थित",
@@ -130,8 +126,7 @@ export const temples: Temple[] = [
       "यह पांडवों द्वारा स्थापित आठ प्रमुख तीर्थस्थलों में से एक माना जाता है।",
     visitingHours: "सुबह 5:30 AM – 9:00 PM",
     location: "नैनी गांव, यमुना तट, प्रयागराज",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/8/8b/Someshwar_Mahadev_Temple.jpg",
+    image:"/images/Someshwar.webp",
     specialFeatures: [
       "रुद्र रूप शिव का मंदिर",
       "यमुना किनारे",
@@ -147,13 +142,14 @@ export const temples: Temple[] = [
     importance: "ज्ञान व शिक्षा की कृपा के लिए लोग यहाँ आते हैं।",
     visitingHours: "सुबह 6 बजे से शाम 7 बजे तक",
     location: "कर्नलगंज/दरगंज क्षेत्र, प्रयागराज",
+    image: "/images/bhardwaj_shram.webp",
     specialFeatures: [
       "आश्रम परिसर में मंदिर",
       "शिव व अन्य देवी-देवताओं की प्रतिमाएँ",
       "ज्ञान विज्ञान की शिक्षा के लिए ऐतिहासिक स्थल",
     ],
   },
- 
+
   {
     id: 9,
     name: "Asi Madhav",
@@ -162,6 +158,7 @@ export const temples: Temple[] = [
     importance: "द्वादश माधव यात्रा का अंग, नाग देवता से सुसम्पन्न।",
     visitingHours: "सुबह 6 बजे से रात 8 बजे तक",
     location: "दरगंज, नाग वासुकी मंदिर",
+    image: "/images/asi_madhav.webp",
     specialFeatures: ["नागवणी मंदिर के भीतर", "द्वादश माधव में शामिल"],
   },
   {
@@ -172,6 +169,7 @@ export const temples: Temple[] = [
     importance: "संकट मोचन के लिए प्रतिपादित, संकट निवारण में विशेष।",
     visitingHours: "सुबह 6–8 बजे, शाम 4–6 बजे",
     location: "झूंसी",
+    image: "/images/sankasht_har_madhav.jpg",
     specialFeatures: ["पीपल वृक्ष के पास", "संकट निवारण"],
   },
   {
@@ -182,6 +180,7 @@ export const temples: Temple[] = [
     importance: "द्वादश माधव यात्रा में महत्व, हाल ही में संरक्षित।",
     visitingHours: "सुबह 7 बजे से शाम 6 बजे तक",
     location: "छतग्न मुंशी बगीचा, झूंसी",
+    image: "/images/shankh_madhav.webp",
     specialFeatures: ["शंख रूप में विष्णु", "नवीकरण पूरक"],
   },
   {
@@ -191,6 +190,7 @@ export const temples: Temple[] = [
     descriptionHindi: "अरैल घाट में स्थित जलमूल विष्णु रूप।",
     importance: "द्वादश माधव यात्रा का हिस्सा, पुराणों में वर्णित।",
     visitingHours: "सुबह 6 बजे से रात 8 बजे तक",
+    image: "/images/maxresdefault.jpg",
     location: "अरैल घाट",
     specialFeatures: ["जलमूल मंदिर", "पुराणिक महत्व"],
   },
@@ -202,6 +202,7 @@ export const temples: Temple[] = [
     importance: "अग्निकोन में स्थित, द्वादश यात्रा श्रृंगार में शामिल।",
     visitingHours: "सुबह 7 बजे से शाम 7 बजे तक",
     location: "अरैल घाट",
+    image: "/images/chakra_madhav.webp",
     specialFeatures: ["चक्र रूपी विष्णु", "संगम के निकट"],
   },
   {
@@ -212,6 +213,7 @@ export const temples: Temple[] = [
     importance: "एकादशी व पूर्णिमा पर आस्था का मंदिर।",
     visitingHours: "सुबह 6 से शाम 6 बजे तक",
     location: "चिवांकी, नयनी क्षेत्र",
+    image: "/images/shree_gada_madhav.webp",
     specialFeatures: ["गदा रूप मधव", "ग्रामीण वातावरण"],
   },
   {
@@ -222,6 +224,7 @@ export const temples: Temple[] = [
     importance: "ग्राम्य तीर्थ स्थल, पद्म रूप माधव के प्रति श्रद्धा।",
     visitingHours: "सुबह 6–8 बजे, शाम 4–6 बजे",
     location: "बिकार देवरिया",
+    image: "/images/padma_madhav.webp",
     specialFeatures: ["पद्म रूप विष्णु", "दीप ग्रामीण मंदिर"],
   },
   {
@@ -232,6 +235,7 @@ export const temples: Temple[] = [
     importance: "नगरीय क्षेत्र में लोकप्रिय पूजा स्थल।",
     visitingHours: "सुबह 6–8 बजे, शाम 4–6 बजे",
     location: "जॉनसनगंज",
+    image: "/images/manohar_madhav.webp",
     specialFeatures: ["नगरीय माधव", "दैनंदिन पूजा"],
   },
   {
@@ -242,6 +246,7 @@ export const temples: Temple[] = [
     importance: "तीर्थ व पूजा स्थल, बिंदु रूप विशिष्ट।",
     visitingHours: "सुबह 6–8 बजे, शाम 4–6 बजे",
     location: "द्रौपदी घाट",
+    image: "/images/bindu_madhav.webp",
     specialFeatures: ["बिंदु रूप विष्णु", "घाट समीप"],
   },
   {
@@ -254,6 +259,7 @@ export const temples: Temple[] = [
       "द्वादश मंदिरों में सर्वोच्च, पहली तीर्थ यात्रा यहीं से प्रारंभ।",
     visitingHours: "सुबह 5–12 बजे, शाम 4–8 बजे",
     location: "दरगंज",
+    image: "/images/veni_madhav.webp",
     specialFeatures: ["नगरी देवता", "चैतन्य महाप्रभु के कीर्तन स्थल"],
   },
   {
@@ -265,6 +271,7 @@ export const temples: Temple[] = [
     importance: "पौराणिक यात्रा के 12वें मंदिर के रूप में भी गिना जाता है।",
     visitingHours: "सुबह 6–8 बजे, शाम 4–6 बजे",
     location: "Ordnance Depot क्षेत्र",
+    image: "/images/anant_madhav.webp",
     specialFeatures: ["अनंत रूप माधव", "परिक्रमा का हिस्सा"],
   },
   {
@@ -277,6 +284,7 @@ export const temples: Temple[] = [
       "यह स्थान मोक्षदायक माना जाता है, जहाँ भगवान विष्णु स्वयं वट वृक्ष के रूप में प्रतिष्ठित हैं।",
     visitingHours: "सुबह 6 बजे से शाम 6 बजे तक",
     location: "पातालपुरी परिसर, इलाहाबाद किला, दरगंज",
+    image: "/images/akshayavat_madhav_.webp",
     specialFeatures: [
       "अक्षयवट वृक्ष के समीप",
       "मोक्ष प्रदान करने वाला स्थल",
@@ -299,7 +307,7 @@ export const temples: Temple[] = [
       "शांति और समाधि का स्थल",
     ],
   },
-   {
+  {
     id: 22,
     name: "Adi Vat Madhav",
     nameHindi: "आदि वट माधव",
@@ -307,6 +315,7 @@ export const temples: Temple[] = [
     importance: "प्रथम द्वादश माधव, ज्योतिषीय परिक्रमा की शुरुआत यहाँ होती है।",
     visitingHours: "नित्य दर्शन",
     location: "त्रिवेणी संगम",
+    image: "/images/adivenimadhav.jpg",
     specialFeatures: ["पौराणिक जल मंदिर", "द्वादश माधव यात्रा की शुरुआत"],
   },
 ];
