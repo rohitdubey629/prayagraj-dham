@@ -9,7 +9,7 @@ export default function ReduxProvider({
 }: {
   children: React.ReactNode
 }) {
-  const storeRef = useRef<ReturnType<typeof makeStore>>()
+  const storeRef = useRef<ReturnType<typeof makeStore> | undefined>(undefined)
   if (!storeRef.current) {
     storeRef.current = makeStore()
   }
