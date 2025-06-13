@@ -5,8 +5,9 @@ import Layout from "@/components/Layout";
 import { RootState } from "../../../lib/store";
 import Image from "next/image";
 
+
 export default function PostDetail() {
-  const params = useParams();
+  const params = useParams() as { id: string };
   const { id } = params;
   const { posts } = useSelector((state: RootState) => state.posts);
 

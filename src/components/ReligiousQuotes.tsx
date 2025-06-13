@@ -23,7 +23,7 @@ export default function ReligiousQuotes() {
         <div className="grid md:grid-cols-3 gap-8">
           {quotes.map((quote, index) => (
             <div key={index} className="bg-white bg-opacity-10 p-6 rounded-lg border border-white border-opacity-20 text-gray-600">
-              <blockquote className="text-lg italic mb-4">"{quote.text}"</blockquote>
+              <blockquote className="text-lg italic mb-4">&quot;{quote.text}&quot;</blockquote>
               <p className="text-right text-amber-200">- {quote.source}</p>
             </div>
           ))}

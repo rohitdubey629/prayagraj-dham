@@ -5,6 +5,17 @@ import { useSelector, useDispatch } from 'react-redux'
 import { addPost, updatePost, deletePost } from '../lib/postsSlice'
 import { RootState } from '../lib/store'
 
+type Post = {
+  id: number
+  title: string
+  content: string
+  category: string
+  image: string
+  author: string
+  date: string
+}
+
+
 export default function AdminDashboard() {
   const { posts } = useSelector((state: RootState) => state.posts)
   const dispatch = useDispatch()
@@ -53,7 +64,7 @@ export default function AdminDashboard() {
     setIsEditing(false)
   }
 
-  const handleEdit = (post: any) => {
+  const handleEdit = (post: Post) => {
     setFormData(post)
     setIsEditing(true)
   }
