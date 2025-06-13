@@ -112,7 +112,7 @@ export default function DarshanSchedulePage() {
                     </div>
                   ))}
                 </div>
-              </div>
+              </div>    
             ))}
           </div>
         </div>
