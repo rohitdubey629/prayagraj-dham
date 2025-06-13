@@ -16,11 +16,62 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --background-image: url('/Maha.webp');
   }
 }
 
+
+
 body {
-  background: var(--background);
+  background: var(--background-image);
+  background-repeat: no-repeat;
+  background-size: cover;
+
+
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+
+
+/* Global color variables */
+@layer base {
+  :root {
+    --color-bhagwa-light: #FF9933;
+    --color-bhagwa: #FF7722;
+    --color-bhagwa-dark: #E5621A;
+    --color-dharmic-green: #138808;
+    --color-dharmic-blue: #000080;
+    --color-bhagwa-DEFAULT: #FF7722;
+  }
+}
+
+/* Create utility classes */
+@layer utilities {
+  .bg-bhagwa-light {
+    background-color: var(--color-bhagwa-light);
+  }
+
+  .bg-bhagwa {
+    background-color: var(--color-bhagwa);
+  }
+
+  .bg-bhagwa-dark {
+    background-color: var(--color-bhagwa-dark);
+  }
+
+  .text-bhagwa-dark {
+    color: var(--color-bhagwa-dark);
+  }
+
+  .bg-dharmic-blue {
+    background-color: var(--color-dharmic-blue);
+  }
+
+  .text-dharmic-blue {
+    color: var(--color-dharmic-blue);
+  }
+    .bg-bhagwa-DEFAULT {
+    background-color: var(--color-bhagwa-DEFAULT);
+  }
 }

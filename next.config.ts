@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    domains: ["upload.wikimedia.org"], // अन्य domains भी यहाँ जोड़ सकते हैं
+  },
 };
 
 export default nextConfig;
