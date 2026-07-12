@@ -52,6 +52,12 @@ export default function Navbar({
           <Link href="/kumbh" className="hover:text-amber-200 transition">
             कुम्भ मेला
           </Link>
+          <Link href="/jhusi" className="hover:text-amber-200 transition">
+            झूंसी
+          </Link>
+          <Link href="/yatra-suvidha" className="hover:text-amber-200 transition">
+            यात्रा सुविधा
+          </Link>
           <Link href="/blog" className="hover:text-amber-200 transition">
             ब्लॉग
           </Link>
@@ -89,6 +95,12 @@ export default function Navbar({
           </Link>
           <Link href="/kumbh" onClick={toggleMobileMenu} className="block hover:text-amber-200">
             कुम्भ मेला
+          </Link>
+          <Link href="/jhusi" onClick={toggleMobileMenu} className="block hover:text-amber-200">
+            झूंसी
+          </Link>
+          <Link href="/yatra-suvidha" onClick={toggleMobileMenu} className="block hover:text-amber-200">
+            यात्रा सुविधा
           </Link>
           <Link href="/blog" onClick={toggleMobileMenu} className="block hover:text-amber-200">
             ब्लॉग

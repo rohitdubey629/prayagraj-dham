@@ -18,6 +18,7 @@ import SacredPlaces from "../components/SacredPlaces";
 import KumbhHighlights from "../components/KumbhHighlights";
 import DailyDarshan from "../components/DailyDarshan";
 import ReligiousQuotes from "../components/ReligiousQuotes";
+import Gallery from "../components/Gallery";
 
 export default function Home() {
   return (
@@ -25,6 +26,7 @@ export default function Home() {
       <Hero />
       <SacredPlaces />
       <KumbhHighlights />
+      <Gallery />
       <DailyDarshan />
       <ReligiousQuotes />
       <FeaturedPosts />

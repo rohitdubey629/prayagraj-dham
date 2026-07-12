@@ -1,5 +1,8 @@
+"use client";
+
 import { ArrowRight, Clock } from "lucide-react";
 import Link from "next/link";
+import FadeIn from "./motion/FadeIn";
 
 // components/DailyDarshan.js
 export default function DailyDarshan() {
@@ -37,12 +40,14 @@ export default function DailyDarshan() {
   return (
     <section className="py-12 bg-white">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-bhagwa-dark mb-2 text-center font-serif">
-          दैनिक दर्शन कार्यक्रम
-        </h2>
-        <div className="w-24 h-1 bg-bhagwa-dark mx-auto mb-8"></div>
+        <FadeIn>
+          <h2 className="text-3xl font-bold text-bhagwa-dark mb-2 text-center font-serif">
+            दैनिक दर्शन कार्यक्रम
+          </h2>
+          <div className="w-24 h-1 bg-bhagwa-dark mx-auto mb-8"></div>
+        </FadeIn>
 
-        <div className="max-w-3xl mx-auto bg-amber-50 rounded-lg p-6 shadow-md space-y-8">
+        <FadeIn delay={0.15} className="max-w-3xl mx-auto bg-amber-50 rounded-lg p-6 shadow-md space-y-8">
 
           {/* घाट दर्शन */}
           <div>
@@ -89,7 +94,7 @@ export default function DailyDarshan() {
               पूरा कार्यक्रम देखें <ArrowRight className="ml-1 w-4 h-4" />
             </Link>
           </div>
-        </div>
+        </FadeIn>
       </div>
     </section>
   );

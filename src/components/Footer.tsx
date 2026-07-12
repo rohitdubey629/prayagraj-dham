@@ -35,10 +35,12 @@ export default function Footer() {
             <p className="mt-2 text-amber-200">त्रिवेणी संगम की पावन भूमि</p>
           </div>
           
-          <div className="flex space-x-6">
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
             <Link href="/about" className="hover:text-amber-200 transition">हमारे बारे में</Link>
-            {/* <Link href="/contact" className="hover:text-amber-200 transition">संपर्क करें</Link>
-            <Link href="/privacy" className="hover:text-amber-200 transition">गोपनीयता नीति</Link> */}
+            <Link href="/jhusi" className="hover:text-amber-200 transition">झूंसी क्षेत्र</Link>
+            <Link href="/yatra-suvidha" className="hover:text-amber-200 transition">यात्रा सुविधा</Link>
+            <Link href="/temples" className="hover:text-amber-200 transition">मंदिर</Link>
+            <Link href="/darshan-schedule" className="hover:text-amber-200 transition">दर्शन कार्यक्रम</Link>
           </div>
         </div>
         
