@@ -17,6 +17,7 @@ export interface Place {
   specialFeatures?: string[];
   specialFeaturesEnglish?: string[];
   imageUrl?: string;
+  images?: string[];
   mapsLink?: string;
   status: "pending" | "approved" | "rejected";
   featured: boolean;
@@ -214,4 +215,99 @@ export function toggleFeaturedShloka(id: string, featured: boolean, token: strin
     headers: { ...authHeaders(token), "Content-Type": "application/json" },
     body: JSON.stringify({ featured }),
   }).then((res) => handleResponse<Shloka>(res));
+}
+
+export interface Post {
+  _id: string;
+  title: string;
+  content: string;
+  category: string;
+  image?: string;
+  author: string;
+  date: string;
+  featured: boolean;
+  createdAt: string;
+}
+
+export interface PostInput {
+  title: string;
+  content: string;
+  category: string;
+  image?: string;
+  author: string;
+  date: string;
+}
+
+export function getPosts(featured?: boolean): Promise<Post[]> {
+  const query = featured ? "?featured=true" : "";
+  return fetch(`${API_URL}/api/posts${query}`).then((res) => handleResponse<Post[]>(res));
+}
+
+export function getPost(id: string): Promise<Post> {
+  return fetch(`${API_URL}/api/posts/${id}`).then((res) => handleResponse<Post>(res));
+}
+
+export function getPostsAdmin(token: string): Promise<Post[]> {
+  return fetch(`${API_URL}/api/posts/admin`, {
+    headers: authHeaders(token),
+  }).then((res) => handleResponse<Post[]>(res));
+}
+
+export function createPost(data: PostInput, token: string): Promise<Post> {
+  return fetch(`${API_URL}/api/posts/admin`, {
+    method: "POST",
+    headers: { ...authHeaders(token), "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  }).then((res) => handleResponse<Post>(res));
+}
+
+export function updatePost(id: string, data: PostInput, token: string): Promise<Post> {
+  return fetch(`${API_URL}/api/posts/admin/${id}`, {
+    method: "PUT",
+    headers: { ...authHeaders(token), "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  }).then((res) => handleResponse<Post>(res));
+}
+
+export function deletePost(id: string, token: string): Promise<{ message: string }> {
+  return fetch(`${API_URL}/api/posts/admin/${id}`, {
+    method: "DELETE",
+    headers: authHeaders(token),
+  }).then((res) => handleResponse<{ message: string }>(res));
+}
+
+export function toggleFeaturedPost(id: string, featured: boolean, token: string): Promise<Post> {
+  return fetch(`${API_URL}/api/posts/admin/${id}/feature`, {
+    method: "POST",
+    headers: { ...authHeaders(token), "Content-Type": "application/json" },
+    body: JSON.stringify({ featured }),
+  }).then((res) => handleResponse<Post>(res));
+}
+
+export interface HeroSlide {
+  _id: string;
+  mediaUrl: string;
+  mediaType: "image" | "video";
+  createdAt: string;
+}
+
+export function getHeroSlides(): Promise<HeroSlide[]> {
+  return fetch(`${API_URL}/api/hero`).then((res) => handleResponse<HeroSlide[]>(res));
+}
+
+export function addHeroSlide(file: File, token: string): Promise<HeroSlide> {
+  const formData = new FormData();
+  formData.append("media", file);
+  return fetch(`${API_URL}/api/hero`, {
+    method: "POST",
+    headers: authHeaders(token),
+    body: formData,
+  }).then((res) => handleResponse<HeroSlide>(res));
+}
+
+export function deleteHeroSlide(id: string, token: string): Promise<{ message: string }> {
+  return fetch(`${API_URL}/api/hero/${id}`, {
+    method: "DELETE",
+    headers: authHeaders(token),
+  }).then((res) => handleResponse<{ message: string }>(res));
 }

@@ -34,6 +34,8 @@ export default function AddPlacePage() {
   const [featureEnglishInput, setFeatureEnglishInput] = useState("");
   const [image, setImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [extraImages, setExtraImages] = useState<File[]>([]);
+  const [extraImagePreviews, setExtraImagePreviews] = useState<string[]>([]);
   const [status, setStatus] = useState<"idle" | "submitting" | "done" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -46,6 +48,25 @@ export default function AddPlacePage() {
     setImagePreview(url);
     return () => URL.revokeObjectURL(url);
   }, [image]);
+
+  useEffect(() => {
+    if (extraImages.length === 0) {
+      setExtraImagePreviews([]);
+      return;
+    }
+    const urls = extraImages.map((file) => URL.createObjectURL(file));
+    setExtraImagePreviews(urls);
+    return () => urls.forEach((url) => URL.revokeObjectURL(url));
+  }, [extraImages]);
+
+  const addExtraImages = (files: FileList | null) => {
+    if (!files) return;
+    setExtraImages((prev) => [...prev, ...Array.from(files)].slice(0, 5));
+  };
+
+  const removeExtraImage = (index: number) => {
+    setExtraImages((prev) => prev.filter((_, i) => i !== index));
+  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -92,6 +113,7 @@ export default function AddPlacePage() {
     if (image) {
       formData.append("image", image);
     }
+    extraImages.forEach((file) => formData.append("images", file));
 
     try {
       await submitPlace(formData);
@@ -104,7 +126,7 @@ export default function AddPlacePage() {
 
   if (status === "done") {
     return (
-      <Layout>
+      <Layout noBackground>
         <div className="container mx-auto px-4 py-16 text-center max-w-xl">
           <h1 className="text-2xl font-bold text-bhagwa-dark mb-4">
             {t(pa.thankYouHeading)}
@@ -116,7 +138,7 @@ export default function AddPlacePage() {
   }
 
   return (
-    <Layout>
+    <Layout noBackground>
       <div className="container mx-auto px-4 py-12 max-w-2xl">
         <h1 className="text-3xl font-bold text-bhagwa-dark mb-2 font-serif text-center">
           {t(pa.heading)}
@@ -357,6 +379,39 @@ export default function AddPlacePage() {
                 >
                   ×
                 </button>
+              </div>
+            )}
+          </div>
+
+          <div>
+            <label className="block text-gray-700 mb-1">{t(pa.morePhotos)}</label>
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={(e) => addExtraImages(e.target.files)}
+              className="w-full"
+            />
+            {extraImagePreviews.length > 0 && (
+              <div className="mt-3 flex flex-wrap gap-3">
+                {extraImagePreviews.map((src, i) => (
+                  <div key={i} className="relative">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={src}
+                      alt={`Preview ${i + 1}`}
+                      className="h-24 w-24 object-cover rounded-lg border border-amber-200"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeExtraImage(i)}
+                      className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm leading-none shadow"
+                      aria-label={t(pa.removeImage)}
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
               </div>
             )}
           </div>

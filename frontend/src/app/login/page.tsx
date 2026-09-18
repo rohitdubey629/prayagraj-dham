@@ -12,6 +12,7 @@ import { translations } from '@/lib/translations'
 export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const dispatch = useDispatch()
   const router = useRouter()
@@ -38,7 +39,7 @@ export default function Login() {
   }
 
   return (
-    <Layout>
+    <Layout noBackground>
       <div className="max-w-md mx-auto my-12 p-8 bg-white rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold text-prayagraj-primary mb-6">{t(l.title)}</h1>
         <form onSubmit={handleSubmit}>
@@ -59,14 +60,23 @@ export default function Login() {
             <label className="block text-gray-700 mb-2" htmlFor="password">
               {t(l.password)}
             </label>
-            <input
-              id="password"
-              type="password"
-              className="w-full px-3 py-2 border rounded"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+            <div className="relative">
+              <input
+                id="password"
+                type={showPassword ? 'text' : 'password'}
+                className="w-full px-3 py-2 pr-16 border rounded"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-sm text-gray-600 hover:text-prayagraj-primary"
+              >
+                {showPassword ? 'Hide' : 'Show'}
+              </button>
+            </div>
           </div>
           {error && <p className="text-red-600 mb-4">{error}</p>}
           <button

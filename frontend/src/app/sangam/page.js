@@ -11,7 +11,7 @@ export default function SangamPage() {
 
   return (
     <Layout>
-      <div className="max-w-4xl mx-auto px-4 py-12">
+      <div className="max-w-4xl mx-auto px-4 py-12 bg-cream/92 backdrop-blur-sm rounded-2xl shadow-lg md:p-10">
         <h1 className="text-4xl font-bold text-bhagwa-dark mb-6 text-center font-serif">
           {t(s.title)}
         </h1>

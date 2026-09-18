@@ -14,6 +14,7 @@ export const translations = {
     kumbh: { hi: "कुम्भ मेला", en: "Kumbh Mela" },
     blog: { hi: "ब्लॉग", en: "Blog" },
     temples: { hi: "मंदिर", en: "Temples" },
+    dharmaDiary: { hi: "धर्म डायरी", en: "Dharma Diary" },
     addPlace: { hi: "जगह जोड़ें", en: "Add a Place" },
     addMenu: { hi: "जोड़ें", en: "Add" },
     admin: { hi: "प्रशासन", en: "Admin" },
@@ -224,9 +225,10 @@ export const translations = {
     viewAll: { hi: "सभी श्लोक देखें", en: "View All Shlokas" },
   },
 
-  featuredPlaces: {
+  categorySliders: {
     heading: { hi: "प्रयागराज के पावन स्थल", en: "Sacred Sites of Prayagraj" },
-    viewAll: { hi: "सभी मंदिर देखें", en: "View All Temples" },
+    viewAll: { hi: "सभी देखें", en: "View All" },
+    featuredBadge: { hi: "होम पेज पर", en: "Featured" },
   },
 
   about: {
@@ -348,6 +350,8 @@ export const translations = {
     filterHistorical: { hi: "ऐतिहासिक", en: "Historical" },
     filterOther: { hi: "अन्य", en: "Other" },
     noneInCategory: { hi: "इस श्रेणी में कोई स्थान नहीं है।", en: "No places in this category." },
+    searchPlaceholder: { hi: "मंदिर या स्थान खोजें...", en: "Search temples or places..." },
+    noSearchResults: { hi: "आपकी खोज से मेल खाता कोई स्थान नहीं मिला।", en: "No places match your search." },
   },
 
   templeDetails: {
@@ -390,6 +394,7 @@ export const translations = {
     add: { hi: "जोड़ें", en: "Add" },
     photo: { hi: "फोटो (वैकल्पिक)", en: "Photo (optional)" },
     removeImage: { hi: "हटाएं", en: "Remove" },
+    morePhotos: { hi: "अतिरिक्त तस्वीरें (वैकल्पिक, अधिकतम 5)", en: "Additional Photos (optional, up to 5)" },
     mapsLink: { hi: "Google Maps लिंक (वैकल्पिक)", en: "Google Maps Link (optional)" },
     submitterName: { hi: "आपका नाम (वैकल्पिक)", en: "Your Name (optional)" },
     submitterContact: { hi: "संपर्क (वैकल्पिक, सार्वजनिक नहीं होगा)", en: "Contact (optional, will not be shown publicly)" },
@@ -482,11 +487,23 @@ export const translations = {
     timingLabel: { hi: "समय:", en: "Timing:" },
     managePlaces: { hi: "स्थान प्रबंधित करें", en: "Manage Places" },
     manageShlokasHeading: { hi: "श्लोक प्रबंधित करें", en: "Manage Shlokas" },
+    manageHeroHeading: { hi: "होम पेज हीरो (स्लाइडशो)", en: "Homepage Hero (Slideshow)" },
+    heroIntro: {
+      hi: "यहाँ जो भी फोटो/वीडियो जोड़ेंगे, वो होम पेज पर बारी-बारी (auto-change) दिखेंगे।",
+      en: "Whatever photos/videos you add here will automatically cycle on the homepage.",
+    },
+    heroUploadLabel: { hi: "नई फोटो/वीडियो जोड़ें", en: "Add a new photo/video" },
+    heroUploading: { hi: "अपलोड हो रहा है...", en: "Uploading..." },
+    heroUploadError: { hi: "अपलोड नहीं हो पाया, कृपया पुनः प्रयास करें।", en: "Upload failed, please try again." },
+    heroEmpty: { hi: "अभी कोई स्लाइड नहीं है, डिफ़ॉल्ट फोटो दिख रही है।", en: "No slides yet — a default photo is showing." },
+    heroDelete: { hi: "हटाएं", en: "Remove" },
     markFeatured: { hi: "होम पेज पर दिखाएं", en: "Feature on Homepage" },
     unmarkFeatured: { hi: "होम पेज से हटाएं", en: "Remove from Homepage" },
     featuredBadge: { hi: "होम पेज पर", en: "Featured" },
     noApprovedPlaces: { hi: "कोई स्वीकृत स्थान नहीं है।", en: "No approved places." },
     noApprovedShlokas: { hi: "कोई स्वीकृत श्लोक नहीं है।", en: "No approved shlokas." },
+    filterPlaceholder: { hi: "खोजें / फ़िल्टर करें...", en: "Search / filter..." },
+    allCategories: { hi: "सभी श्रेणियां", en: "All categories" },
   },
 };
 

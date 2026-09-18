@@ -53,7 +53,7 @@ export default function AddShlokaPage() {
 
   if (status === "done") {
     return (
-      <Layout>
+      <Layout noBackground>
         <div className="container mx-auto px-4 py-16 text-center max-w-xl">
           <h1 className="text-2xl font-bold text-bhagwa-dark mb-4">{t(s.thankYouHeading)}</h1>
           <p className="text-gray-700">{t(s.thankYouBody)}</p>
@@ -63,7 +63,7 @@ export default function AddShlokaPage() {
   }
 
   return (
-    <Layout>
+    <Layout noBackground>
       <div className="container mx-auto px-4 py-12 max-w-2xl">
         <h1 className="text-3xl font-bold text-bhagwa-dark mb-2 font-serif text-center">
           {t(s.formHeading)}

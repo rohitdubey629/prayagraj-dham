@@ -1,5 +1,6 @@
 // app/temples/page.tsx
 "use client";
+import { Suspense } from "react";
 import Layout from "@/components/Layout";
 import TemplesList from "@/components/TemplesList";
 import { useTranslation } from "@/lib/useTranslation";
@@ -12,7 +13,7 @@ export default function TemplesPage() {
   return (
     <Layout>
       <div className="container mx-auto px-4 py-12">
-        <div className="text-center mb-12">
+        <div className="text-center mb-12 bg-cream/92 backdrop-blur-sm rounded-2xl py-8 px-4 shadow-lg">
           <h1 className="text-4xl font-bold text-bhagwa-dark mb-2 font-serif">
             {t(tr.title)}
           </h1>
@@ -33,7 +34,9 @@ export default function TemplesPage() {
           </ul>
         </div>
 
-        <TemplesList />
+        <Suspense fallback={<p className="text-center text-gray-600">{t(tr.loading)}</p>}>
+          <TemplesList />
+        </Suspense>
 
       </div>
     </Layout>
