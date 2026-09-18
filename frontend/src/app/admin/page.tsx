@@ -9,20 +9,20 @@ import { RootState } from '../../lib/store'
 
 export default function Admin() {
   const router = useRouter()
-  const { isAdmin, isAuthenticated } = useSelector((state: RootState) => state.auth)
+  const { isAdmin, isAuthenticated, hydrated } = useSelector((state: RootState) => state.auth)
 
   useEffect(() => {
-    if (!isAuthenticated || !isAdmin) {
+    if (hydrated && (!isAuthenticated || !isAdmin)) {
       router.push('/login')
     }
-  }, [isAuthenticated, isAdmin, router])
+  }, [hydrated, isAuthenticated, isAdmin, router])
 
-  if (!isAuthenticated || !isAdmin) {
+  if (!hydrated || !isAuthenticated || !isAdmin) {
     return null
   }
 
   return (
-    <Layout>
+    <Layout noBackground>
       <AdminDashboard />
     </Layout>
   )

@@ -11,16 +11,16 @@ export default function DarshanSchedulePage() {
 
   return (
     <Layout>
-      <main className="py-12 bg-white min-h-screen">
+      <main className="py-12">
         <div className="container mx-auto px-4">
-          <h1 className="text-4xl font-bold text-bhagwa-dark text-center font-serif mb-4">
+          <h1 className="text-4xl font-bold text-white text-center font-serif mb-4 drop-shadow-lg">
             {t(ds.heading)}
           </h1>
-          <p className="text-center text-gray-700 mb-10">
+          <p className="text-center text-cream/90 mb-10 drop-shadow">
             {t(ds.subheading)}
           </p>
 
-          <div className="max-w-3xl mx-auto bg-amber-50 rounded-lg p-6 shadow-md space-y-10">
+          <div className="max-w-3xl mx-auto bg-amber-50/95 backdrop-blur-sm rounded-lg p-6 shadow-lg space-y-10">
             {ds.sections.map((section, idx) => (
               <div key={idx}>
                 <h2 className="text-2xl font-semibold text-bhagwa-dark mb-4">

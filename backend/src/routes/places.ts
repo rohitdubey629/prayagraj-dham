@@ -216,9 +216,20 @@ router.post("/", upload, async (req: Request, res: Response) => {
     const specialFeatures = parseFeatureList(req.body.specialFeatures);
     const specialFeaturesEnglish = parseFeatureList(req.body.specialFeaturesEnglish);
 
+    const files = req.files as
+      | { image?: Express.Multer.File[]; images?: Express.Multer.File[] }
+      | undefined;
+
     let imageUrl: string | undefined;
-    if (req.file) {
-      imageUrl = await uploadBufferToCloudinary(req.file.buffer);
+    if (files?.image?.[0]) {
+      imageUrl = await uploadBufferToCloudinary(files.image[0].buffer);
+    }
+
+    let images: string[] | undefined;
+    if (files?.images?.length) {
+      images = await Promise.all(
+        files.images.map((file) => uploadBufferToCloudinary(file.buffer))
+      );
     }
 
     const place = await Place.create({
@@ -236,6 +247,7 @@ router.post("/", upload, async (req: Request, res: Response) => {
       specialFeatures,
       specialFeaturesEnglish,
       imageUrl,
+      images,
       mapsLink,
       submittedByName,
       submittedByContact,

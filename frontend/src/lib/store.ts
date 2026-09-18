@@ -1,12 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
-import postsReducer from './postsSlice'
 import authReducer from './authSlice'
 import languageReducer from './languageSlice'
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
-      posts: postsReducer,
       auth: authReducer,
       language: languageReducer,
     },

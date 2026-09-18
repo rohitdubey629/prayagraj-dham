@@ -12,66 +12,70 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --background-image: url('/images/mahakumbh.jpg');
-  }
+/* Registering these as real Tailwind theme colors (not just plain CSS
+   variables) is what makes opacity modifiers like bg-bhagwa-dark/90 work. */
+@theme {
+  --color-bhagwa-light: #FF9933;
+  --color-bhagwa: #FF7722;
+  --color-bhagwa-dark: #E5621A;
+  --color-dharmic-green: #138808;
+  --color-dharmic-blue: #000080;
+  --color-bhagwa-DEFAULT: #FF7722;
+  --color-prayagraj-primary: #FF7722;
+  --color-prayagraj-secondary: #000080;
+  --color-navy: #0A1830;
+  --color-navy-light: #142645;
+  --color-cream: #FAF6EE;
+  --color-gold: #C9A227;
 }
-
-
 
 body {
-  background: var(--background-image);
-  background-repeat: no-repeat;
-  background-size: cover;
-
-
+  background: var(--color-cream);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
 }
 
+.font-serif-display {
+  font-family: var(--font-serif-display), Georgia, serif;
+}
 
-
-/* Global color variables */
-@layer base {
-  :root {
-    --color-bhagwa-light: #FF9933;
-    --color-bhagwa: #FF7722;
-    --color-bhagwa-dark: #E5621A;
-    --color-dharmic-green: #138808;
-    --color-dharmic-blue: #000080;
-    --color-bhagwa-DEFAULT: #FF7722;
+@keyframes shloka-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
   }
 }
 
-/* Create utility classes */
-@layer utilities {
-  .bg-bhagwa-light {
-    background-color: var(--color-bhagwa-light);
-  }
+.shloka-marquee-track {
+  animation: shloka-marquee 60s linear infinite;
+}
 
-  .bg-bhagwa {
-    background-color: var(--color-bhagwa);
-  }
+.shloka-marquee:hover .shloka-marquee-track,
+.shloka-marquee:focus-within .shloka-marquee-track {
+  animation-play-state: paused;
+}
 
-  .bg-bhagwa-dark {
-    background-color: var(--color-bhagwa-dark);
+@media (prefers-reduced-motion: reduce) {
+  .shloka-marquee-track {
+    animation: none;
   }
+}
 
-  .text-bhagwa-dark {
-    color: var(--color-bhagwa-dark);
-  }
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
 
-  .bg-dharmic-blue {
-    background-color: var(--color-dharmic-blue);
-  }
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
 
-  .text-dharmic-blue {
-    color: var(--color-dharmic-blue);
-  }
-    .bg-bhagwa-DEFAULT {
-    background-color: var(--color-bhagwa-DEFAULT);
-  }
+/* Browsers show a plain arrow on <button> by default (only <a> gets a hand
+   cursor natively), so every clickable button/tab/toggle across the site
+   silently loses the "this is clickable" hint. Restore it everywhere except
+   disabled buttons, which should look inert. */
+button:not(:disabled),
+[role="button"]:not(:disabled) {
+  cursor: pointer;
 }

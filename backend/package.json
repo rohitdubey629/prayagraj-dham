@@ -7,7 +7,10 @@
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "seed": "ts-node-dev --transpile-only src/seed/seedTemples.ts"
+    "seed": "ts-node-dev --transpile-only src/seed/seedPlaces.ts",
+    "seed:shlokas": "ts-node-dev --transpile-only src/seed/seedShlokas.ts",
+    "seed:posts": "ts-node-dev --transpile-only src/seed/seedPosts.ts",
+    "seed:hero": "ts-node-dev --transpile-only src/seed/seedHero.ts"
   },
   "dependencies": {
     "express": "^4.19.2",
