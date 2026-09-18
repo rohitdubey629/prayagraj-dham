@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Prayagraj Dham
 
-## Getting Started
+Prayagraj ke religious/tourist places (temples, ghats, ashrams) ki directory. Project do alag folders mein split hai:
 
-First, run the development server:
+- **`/frontend`** — Next.js app (UI)
+- **`/backend`** — Express + MongoDB API (data + user-submitted places moderation)
+
+## Setup
+
+### Backend
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cd backend
+cp .env.example .env   # fill in MongoDB, JWT, admin, Cloudinary credentials
+npm install
+npm run seed            # one-time: loads the original temple list into MongoDB
+npm run dev             # starts API on http://localhost:5000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Frontend
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+cd frontend
+cp .env.local.example .env.local   # set NEXT_PUBLIC_API_URL if backend isn't on localhost:5000
+npm install
+npm run dev              # starts app on http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Run both `npm run dev` commands side by side during development.
+
+## Feature: Hindi/English language switcher
+
+The navbar has a हिं/EN toggle. It switches all static UI text (via `frontend/src/lib/translations.ts`) and, for temples/places, shows the English fields (`descriptionEnglish`, `importanceEnglish`, etc.) when available, falling back to the Hindi content otherwise. The choice is remembered in the browser (`localStorage`).
+
+## Feature: Shlokas (sacred verses)
+
+Anyone can add a shloka at `/shlokas/add` (Name and Email required, mobile optional — no login needed). It goes into a moderation queue just like places; the admin dashboard has a "Pending Shlokas" panel to approve/reject, plus a direct-add form for the admin (auto-approved). Approved shlokas show at `/shlokas`. A shloka can optionally have a scheduled date — on that date, a popup with the shloka shows on the homepage every time it loads.
+
+## Feature: featured places/shlokas on homepage + category filter
+
+The admin dashboard has "Manage Places" and "Manage Shlokas" panels (listing all approved items) with a "Feature on Homepage" toggle. The homepage's "पावन स्थल"/"पवित्र वचन" sections now show only the featured items pulled live from the backend, each with a "सभी देखें" (View All) button linking to the full `/temples` or `/shlokas` list. If nothing is featured yet, those sections simply don't render. `/temples` also has category filter buttons (All/Temple/Ghat/Ashram/Historical/Other).
+
+## Feature: user-submitted places
+
+Any visitor can go to **जगह जोड़ें** (`/places/add`) and submit a missing temple/ghat/ashram with details and a photo. Submissions start as `pending` and are not shown publicly. An admin logs in at `/login` (credentials from the backend's `ADMIN_EMAIL`/`ADMIN_PASSWORD`) and reviews pending submissions from the admin dashboard (`/admin`), approving or rejecting each one. Once approved, a place becomes visible on `/temples`. Submitters cannot edit or delete their own submissions — only the admin can.
 
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This app uses [Next.js](https://nextjs.org) for the frontend. See the [Next.js Documentation](https://nextjs.org/docs) for framework details.
