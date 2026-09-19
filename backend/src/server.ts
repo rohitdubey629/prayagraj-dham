@@ -9,6 +9,9 @@ import placesRoutes from "./routes/places";
 import shlokasRoutes from "./routes/shlokas";
 import postsRoutes from "./routes/posts";
 import heroRoutes from "./routes/hero";
+import kumbhEventsRoutes from "./routes/kumbhEvents";
+import usersRoutes from "./routes/users";
+import yatraRoutes from "./routes/yatra";
 
 const app = express();
 
@@ -20,6 +23,9 @@ app.use("/api/places", placesRoutes);
 app.use("/api/shlokas", shlokasRoutes);
 app.use("/api/posts", postsRoutes);
 app.use("/api/hero", heroRoutes);
+app.use("/api/kumbh-events", kumbhEventsRoutes);
+app.use("/api/users", usersRoutes);
+app.use("/api/yatra", yatraRoutes);
 
 const PORT = process.env.PORT || 5000;
 

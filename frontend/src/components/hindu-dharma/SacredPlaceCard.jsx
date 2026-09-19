@@ -3,7 +3,7 @@
 import { MapPin } from "lucide-react";
 import { useTranslation } from "@/lib/useTranslation";
 
-export default function SacredPlaceCard({ name, location, deity, temple, info, festival }) {
+export default function SacredPlaceCard({ name, location, deity, temple, info, festival, children }) {
   const { t } = useTranslation();
   return (
     <div className="bg-white border border-gold/20 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
@@ -17,6 +17,7 @@ export default function SacredPlaceCard({ name, location, deity, temple, info, f
       {temple && <p className="text-sm text-navy/80 mb-2">{t(temple)}</p>}
       {info && <p className="text-sm text-gray-500">{t(info)}</p>}
       {festival && <p className="text-xs text-gray-400 mt-2">{t({ hi: "प्रमुख त्योहार", en: "Major festival" })}: {t(festival)}</p>}
+      {children}
     </div>
   );
 }

@@ -311,3 +311,157 @@ export function deleteHeroSlide(id: string, token: string): Promise<{ message: s
     headers: authHeaders(token),
   }).then((res) => handleResponse<{ message: string }>(res));
 }
+
+export interface KumbhEvent {
+  _id: string;
+  location: "Prayagraj" | "Haridwar" | "Ujjain" | "Nashik";
+  locationHindi: string;
+  kumbhType: "Maha Kumbh" | "Purna Kumbh" | "Ardh Kumbh" | "Simhastha";
+  kumbhTypeHindi: string;
+  year: number;
+  startDate?: string;
+  endDate?: string;
+  description?: string;
+  descriptionEnglish?: string;
+  isApproximate: boolean;
+}
+
+export interface KumbhEventInput {
+  location: string;
+  locationHindi: string;
+  kumbhType: string;
+  kumbhTypeHindi: string;
+  year: number;
+  startDate?: string;
+  endDate?: string;
+  description?: string;
+  descriptionEnglish?: string;
+  isApproximate?: boolean;
+}
+
+export function getKumbhEvents(): Promise<KumbhEvent[]> {
+  return fetch(`${API_URL}/api/kumbh-events`).then((res) => handleResponse<KumbhEvent[]>(res));
+}
+
+export function createKumbhEvent(data: KumbhEventInput, token: string): Promise<KumbhEvent> {
+  return fetch(`${API_URL}/api/kumbh-events`, {
+    method: "POST",
+    headers: { ...authHeaders(token), "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  }).then((res) => handleResponse<KumbhEvent>(res));
+}
+
+export function updateKumbhEvent(
+  id: string,
+  data: Partial<KumbhEventInput>,
+  token: string
+): Promise<KumbhEvent> {
+  return fetch(`${API_URL}/api/kumbh-events/${id}`, {
+    method: "PUT",
+    headers: { ...authHeaders(token), "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  }).then((res) => handleResponse<KumbhEvent>(res));
+}
+
+export function deleteKumbhEvent(id: string, token: string): Promise<{ message: string }> {
+  return fetch(`${API_URL}/api/kumbh-events/${id}`, {
+    method: "DELETE",
+    headers: authHeaders(token),
+  }).then((res) => handleResponse<{ message: string }>(res));
+}
+
+// --- User accounts (regular visitors, distinct from the single admin login) ---
+
+export interface UserAccount {
+  id: string;
+  name: string;
+  email: string;
+}
+
+export interface AuthResult {
+  token: string;
+  user: UserAccount;
+}
+
+export function registerUser(name: string, email: string, password: string): Promise<AuthResult> {
+  return fetch(`${API_URL}/api/users/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name, email, password }),
+  }).then((res) => handleResponse<AuthResult>(res));
+}
+
+export function loginUser(email: string, password: string): Promise<AuthResult> {
+  return fetch(`${API_URL}/api/users/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+  }).then((res) => handleResponse<AuthResult>(res));
+}
+
+// --- My Yatra (personal visit diary — private to the signed-in user) ---
+
+export interface Visit {
+  _id: string;
+  userId: string;
+  placeId: string;
+  visitedAt: string;
+  visitNumber: number;
+  companions?: string;
+  travelMethod?: string;
+  memory?: string;
+  notes?: string;
+  photos?: string[];
+  createdAt: string;
+}
+
+export interface VisitInput {
+  placeId: string;
+  visitedAt: string;
+  companions?: string | null;
+  travelMethod?: string | null;
+  memory?: string;
+  notes?: string;
+  photos?: string[];
+}
+
+export function getVisits(token: string): Promise<Visit[]> {
+  return fetch(`${API_URL}/api/yatra/visits`, {
+    headers: authHeaders(token),
+  }).then((res) => handleResponse<Visit[]>(res));
+}
+
+export function addVisit(data: VisitInput, token: string): Promise<Visit> {
+  return fetch(`${API_URL}/api/yatra/visits`, {
+    method: "POST",
+    headers: { ...authHeaders(token), "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  }).then((res) => handleResponse<Visit>(res));
+}
+
+export function deleteVisit(visitId: string, token: string): Promise<{ message: string }> {
+  return fetch(`${API_URL}/api/yatra/visits/${visitId}`, {
+    method: "DELETE",
+    headers: authHeaders(token),
+  }).then((res) => handleResponse<{ message: string }>(res));
+}
+
+export interface WishlistItem {
+  _id: string;
+  placeId: string;
+  createdAt: string;
+}
+
+export function getWishlist(token: string): Promise<WishlistItem[]> {
+  return fetch(`${API_URL}/api/yatra/wishlist`, {
+    headers: authHeaders(token),
+  }).then((res) => handleResponse<WishlistItem[]>(res));
+}
+
+export function toggleWishlist(placeId: string, token: string): Promise<{ placeId: string; wishlisted: boolean }> {
+  return fetch(`${API_URL}/api/yatra/wishlist`, {
+    method: "POST",
+    headers: { ...authHeaders(token), "Content-Type": "application/json" },
+    body: JSON.stringify({ placeId }),
+  }).then((res) => handleResponse<{ placeId: string; wishlisted: boolean }>(res));
+}

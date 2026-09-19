@@ -80,6 +80,9 @@ export default function Navbar({
           <Link href="/hindu-dharma-diary" className="hover:text-gold transition">
             {t(nav.dharmaDiary)}
           </Link>
+          <Link href="/my-yatra" className="hover:text-gold transition">
+            🛕 {t(nav.myYatra)}
+          </Link>
           {/* Add dropdown: Add a Place / Add a Shloka */}
           <div className="relative" ref={addMenuRef}>
             <button
@@ -150,6 +153,9 @@ export default function Navbar({
           </Link>
           <Link href="/hindu-dharma-diary" onClick={toggleMobileMenu} className="block hover:text-gold">
             {t(nav.dharmaDiary)}
+          </Link>
+          <Link href="/my-yatra" onClick={toggleMobileMenu} className="block hover:text-gold">
+            🛕 {t(nav.myYatra)}
           </Link>
           <div className="pt-2 border-t border-gold/20">
             <p className="text-sm text-gold mb-1">{t(nav.addMenu)}</p>

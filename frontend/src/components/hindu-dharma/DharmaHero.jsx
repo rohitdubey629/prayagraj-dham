@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { BookOpen, ScrollText, MapPin } from "lucide-react";
 import { useTranslation } from "@/lib/useTranslation";
 
@@ -68,6 +69,18 @@ export default function DharmaHero() {
             >
               <MapPin size={18} /> {t({ hi: "पवित्र स्थल", en: "Sacred Places" })}
             </button>
+          </div>
+
+          <div className="mt-6 pt-6 border-t border-gold/20 flex items-center gap-3 flex-wrap">
+            <p className="text-sm text-white/60">
+              {t({ hi: "पहले ही किसी मंदिर के दर्शन किए हैं?", en: "Already visited a temple or two?" })}
+            </p>
+            <Link
+              href="/my-yatra"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-gold hover:underline"
+            >
+              🛕 {t({ hi: "मेरी यात्रा डायरी खोलें →", en: "Open My Yatra Diary →" })}
+            </Link>
           </div>
         </motion.div>
       </div>

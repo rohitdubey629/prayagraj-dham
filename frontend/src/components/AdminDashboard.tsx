@@ -28,6 +28,10 @@ import {
   addHeroSlide,
   deleteHeroSlide,
   HeroSlide,
+  getKumbhEvents,
+  createKumbhEvent,
+  deleteKumbhEvent,
+  KumbhEvent,
 } from '../lib/api'
 import { useTranslation } from '../lib/useTranslation'
 import { translations } from '../lib/translations'
@@ -38,6 +42,82 @@ export default function AdminDashboard() {
   const { t } = useTranslation()
   const ad = translations.admin
   const sh = translations.shlokas
+
+  const [kumbhEvents, setKumbhEvents] = useState<KumbhEvent[]>([])
+  const [kumbhStatus, setKumbhStatus] = useState<'loading' | 'ready' | 'error'>('loading')
+  const [kumbhForm, setKumbhForm] = useState({
+    location: 'Prayagraj',
+    locationHindi: '',
+    kumbhType: 'Maha Kumbh',
+    kumbhTypeHindi: '',
+    year: '',
+    startDate: '',
+    endDate: '',
+    description: '',
+    descriptionEnglish: '',
+    isApproximate: false,
+  })
+
+  const loadKumbhEvents = () => {
+    setKumbhStatus('loading')
+    getKumbhEvents()
+      .then((data) => {
+        setKumbhEvents(data)
+        setKumbhStatus('ready')
+      })
+      .catch(() => setKumbhStatus('error'))
+  }
+
+  useEffect(() => {
+    loadKumbhEvents()
+  }, [])
+
+  const handleKumbhFormChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    const { name, value, type } = e.target
+    const checked = (e.target as HTMLInputElement).checked
+    setKumbhForm((prev) => ({ ...prev, [name]: type === 'checkbox' ? checked : value }))
+  }
+
+  const handleAddKumbhEvent = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!token || !kumbhForm.locationHindi || !kumbhForm.kumbhTypeHindi || !kumbhForm.year) return
+    await createKumbhEvent(
+      {
+        location: kumbhForm.location,
+        locationHindi: kumbhForm.locationHindi,
+        kumbhType: kumbhForm.kumbhType,
+        kumbhTypeHindi: kumbhForm.kumbhTypeHindi,
+        year: Number(kumbhForm.year),
+        startDate: kumbhForm.startDate || undefined,
+        endDate: kumbhForm.endDate || undefined,
+        description: kumbhForm.description || undefined,
+        descriptionEnglish: kumbhForm.descriptionEnglish || undefined,
+        isApproximate: kumbhForm.isApproximate,
+      },
+      token
+    )
+    setKumbhForm({
+      location: 'Prayagraj',
+      locationHindi: '',
+      kumbhType: 'Maha Kumbh',
+      kumbhTypeHindi: '',
+      year: '',
+      startDate: '',
+      endDate: '',
+      description: '',
+      descriptionEnglish: '',
+      isApproximate: false,
+    })
+    loadKumbhEvents()
+  }
+
+  const handleDeleteKumbhEvent = async (id: string) => {
+    if (!token) return
+    await deleteKumbhEvent(id, token)
+    setKumbhEvents((prev) => prev.filter((e) => e._id !== id))
+  }
 
   const [heroSlides, setHeroSlides] = useState<HeroSlide[]>([])
   const [heroStatus, setHeroStatus] = useState<'loading' | 'ready' | 'error'>('loading')
@@ -845,6 +925,155 @@ export default function AdminDashboard() {
               </button>
             </div>
           ))}
+        </div>
+      </div>
+
+      {/* Kumbh Events management */}
+      <div className="grid md:grid-cols-2 gap-8 mt-8">
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <h2 className="text-xl font-bold mb-4">{t(ad.addKumbhEvent)}</h2>
+          <form onSubmit={handleAddKumbhEvent} className="space-y-3">
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-gray-700 mb-1 text-sm">{t(ad.kumbhLocation)}</label>
+                <select
+                  name="location"
+                  value={kumbhForm.location}
+                  onChange={handleKumbhFormChange}
+                  className="w-full px-3 py-2 border rounded"
+                >
+                  <option value="Prayagraj">Prayagraj</option>
+                  <option value="Haridwar">Haridwar</option>
+                  <option value="Ujjain">Ujjain</option>
+                  <option value="Nashik">Nashik</option>
+                </select>
+              </div>
+              <input
+                name="locationHindi"
+                value={kumbhForm.locationHindi}
+                onChange={handleKumbhFormChange}
+                placeholder={t(ad.kumbhLocationHindi)}
+                required
+                className="px-3 py-2 border rounded self-end"
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-gray-700 mb-1 text-sm">{t(ad.kumbhType)}</label>
+                <select
+                  name="kumbhType"
+                  value={kumbhForm.kumbhType}
+                  onChange={handleKumbhFormChange}
+                  className="w-full px-3 py-2 border rounded"
+                >
+                  <option value="Maha Kumbh">Maha Kumbh</option>
+                  <option value="Purna Kumbh">Purna Kumbh</option>
+                  <option value="Ardh Kumbh">Ardh Kumbh</option>
+                  <option value="Simhastha">Simhastha</option>
+                </select>
+              </div>
+              <input
+                name="kumbhTypeHindi"
+                value={kumbhForm.kumbhTypeHindi}
+                onChange={handleKumbhFormChange}
+                placeholder={t(ad.kumbhTypeHindi)}
+                required
+                className="px-3 py-2 border rounded self-end"
+              />
+            </div>
+            <input
+              type="number"
+              name="year"
+              value={kumbhForm.year}
+              onChange={handleKumbhFormChange}
+              placeholder={t(ad.kumbhYear)}
+              required
+              className="w-full px-3 py-2 border rounded"
+            />
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-gray-700 mb-1 text-sm">{t(ad.kumbhStartDate)}</label>
+                <input
+                  type="date"
+                  name="startDate"
+                  value={kumbhForm.startDate}
+                  onChange={handleKumbhFormChange}
+                  className="w-full px-3 py-2 border rounded"
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 mb-1 text-sm">{t(ad.kumbhEndDate)}</label>
+                <input
+                  type="date"
+                  name="endDate"
+                  value={kumbhForm.endDate}
+                  onChange={handleKumbhFormChange}
+                  className="w-full px-3 py-2 border rounded"
+                />
+              </div>
+            </div>
+            <textarea
+              name="description"
+              value={kumbhForm.description}
+              onChange={handleKumbhFormChange}
+              placeholder={t(ad.kumbhDescription)}
+              rows={2}
+              className="w-full px-3 py-2 border rounded"
+            />
+            <textarea
+              name="descriptionEnglish"
+              value={kumbhForm.descriptionEnglish}
+              onChange={handleKumbhFormChange}
+              placeholder={t(ad.kumbhDescriptionEnglish)}
+              rows={2}
+              className="w-full px-3 py-2 border rounded"
+            />
+            <label className="flex items-center gap-2 text-sm text-gray-700">
+              <input
+                type="checkbox"
+                name="isApproximate"
+                checked={kumbhForm.isApproximate}
+                onChange={handleKumbhFormChange}
+              />
+              {t(ad.kumbhApproximate)}
+            </label>
+            <button
+              type="submit"
+              className="bg-prayagraj-primary text-white px-4 py-2 rounded hover:bg-prayagraj-secondary transition"
+            >
+              {t(ad.add)}
+            </button>
+          </form>
+        </div>
+
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <h2 className="text-xl font-bold mb-4">{t(ad.manageKumbhHeading)}</h2>
+          {kumbhStatus === 'loading' && <p className="text-gray-500">{t(ad.loading)}</p>}
+          {kumbhStatus === 'error' && <p className="text-red-600">{t(ad.pendingLoadError)}</p>}
+          {kumbhStatus === 'ready' && kumbhEvents.length === 0 && (
+            <p className="text-gray-500">{t(ad.noKumbhEvents)}</p>
+          )}
+          <div className="space-y-3 max-h-96 overflow-y-auto">
+            {kumbhEvents.map((event) => (
+              <div key={event._id} className="border rounded-lg p-3 flex justify-between items-center gap-3">
+                <div>
+                  <p className="font-medium">
+                    {event.locationHindi} ({event.location}) — {event.kumbhTypeHindi}
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    {event.year}
+                    {event.isApproximate ? ' (approx)' : ''}
+                  </p>
+                </div>
+                <button
+                  onClick={() => handleDeleteKumbhEvent(event._id)}
+                  className="text-sm bg-red-500 text-white px-3 py-1 rounded whitespace-nowrap"
+                >
+                  {t(ad.delete)}
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

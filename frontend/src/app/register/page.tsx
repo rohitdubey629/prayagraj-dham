@@ -3,57 +3,43 @@
 import { Suspense, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useDispatch } from 'react-redux'
+import Link from 'next/link'
 import { login } from '../../lib/authSlice'
 import Layout from '../../components/Layout'
-import { adminLogin, loginUser } from '../../lib/api'
-import Link from 'next/link'
+import { registerUser } from '../../lib/api'
 import { useTranslation } from '@/lib/useTranslation'
 import { translations } from '@/lib/translations'
 
-export default function Login() {
+export default function Register() {
   return (
     <Suspense fallback={null}>
-      <LoginForm />
+      <RegisterForm />
     </Suspense>
   )
 }
 
-function LoginForm() {
+function RegisterForm() {
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const dispatch = useDispatch()
   const router = useRouter()
   const searchParams = useSearchParams()
   const { t } = useTranslation()
-  const l = translations.login
+  const r = translations.register
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
     setSubmitting(true)
-
-    const next = searchParams.get('next')
-
     try {
-      // Admin credentials live in env vars, not the users collection, so try
-      // that first — it fails fast (401) for any non-admin email/password.
-      const { token } = await adminLogin(email, password)
-      dispatch(login({ email, role: 'admin', token }))
-      router.push(next || '/admin')
-      return
-    } catch {
-      // not the admin — fall through to a regular user login
-    }
-
-    try {
-      const { token, user } = await loginUser(email, password)
+      const { token, user } = await registerUser(name, email, password)
       dispatch(login({ id: user.id, name: user.name, email: user.email, role: 'user', token }))
-      router.push(next || '/my-yatra')
-    } catch {
-      setError(t(l.invalidCredentials))
+      router.push(searchParams.get('next') || '/my-yatra')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t(r.genericError))
     } finally {
       setSubmitting(false)
     }
@@ -62,11 +48,24 @@ function LoginForm() {
   return (
     <Layout noBackground>
       <div className="max-w-md mx-auto my-12 p-8 bg-white rounded-lg shadow-lg">
-        <h1 className="text-2xl font-bold text-prayagraj-primary mb-6">{t(l.title)}</h1>
+        <h1 className="text-2xl font-bold text-prayagraj-primary mb-6">{t(r.title)}</h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
+            <label className="block text-gray-700 mb-2" htmlFor="name">
+              {t(r.name)}
+            </label>
+            <input
+              id="name"
+              type="text"
+              className="w-full px-3 py-2 border rounded"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mb-4">
             <label className="block text-gray-700 mb-2" htmlFor="email">
-              {t(l.email)}
+              {t(r.email)}
             </label>
             <input
               id="email"
@@ -79,25 +78,18 @@ function LoginForm() {
           </div>
           <div className="mb-6">
             <label className="block text-gray-700 mb-2" htmlFor="password">
-              {t(l.password)}
+              {t(r.password)}
             </label>
-            <div className="relative">
-              <input
-                id="password"
-                type={showPassword ? 'text' : 'password'}
-                className="w-full px-3 py-2 pr-16 border rounded"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword((prev) => !prev)}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-sm text-gray-600 hover:text-prayagraj-primary"
-              >
-                {showPassword ? 'Hide' : 'Show'}
-              </button>
-            </div>
+            <input
+              id="password"
+              type="password"
+              className="w-full px-3 py-2 border rounded"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              minLength={6}
+              required
+            />
+            <p className="text-xs text-gray-500 mt-1">{t(r.passwordHint)}</p>
           </div>
           {error && <p className="text-red-600 mb-4">{error}</p>}
           <button
@@ -105,13 +97,13 @@ function LoginForm() {
             disabled={submitting}
             className="w-full bg-prayagraj-primary text-white py-2 px-4 rounded hover:bg-prayagraj-secondary transition disabled:opacity-60"
           >
-            {t(l.submit)}
+            {t(r.submit)}
           </button>
         </form>
         <p className="text-sm text-gray-600 mt-4 text-center">
-          {t(l.noAccount)}{' '}
-          <Link href="/register" className="text-prayagraj-primary font-semibold hover:underline">
-            {t(l.registerLink)}
+          {t(r.haveAccount)}{' '}
+          <Link href="/login" className="text-prayagraj-primary font-semibold hover:underline">
+            {t(r.loginLink)}
           </Link>
         </p>
       </div>

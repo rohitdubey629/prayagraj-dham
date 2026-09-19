@@ -15,6 +15,7 @@ export const translations = {
     blog: { hi: "ब्लॉग", en: "Blog" },
     temples: { hi: "मंदिर", en: "Temples" },
     dharmaDiary: { hi: "धर्म डायरी", en: "Dharma Diary" },
+    myYatra: { hi: "मेरी यात्रा", en: "My Yatra" },
     addPlace: { hi: "जगह जोड़ें", en: "Add a Place" },
     addMenu: { hi: "जोड़ें", en: "Add" },
     admin: { hi: "प्रशासन", en: "Admin" },
@@ -284,12 +285,60 @@ export const translations = {
       hi: "पुराणों के अनुसार समुद्र मंथन के दौरान अमृत कलश से चार स्थानों पर अमृत की बूँदें गिरी थीं - प्रयागराज, हरिद्वार, उज्जैन और नासिक। इन स्थानों पर कुम्भ मेले का आयोजन होता है।",
       en: "According to the Puranas, during the churning of the ocean, drops of the nectar of immortality fell at four places — Prayagraj, Haridwar, Ujjain and Nashik. The Kumbh Mela is held at these places.",
     },
-    datesHeading: { hi: "महत्वपूर्ण स्नान तिथियाँ", en: "Important Bathing Dates" },
-    dates: [
-      { label: { hi: "मकर संक्रांति:", en: "Makar Sankranti:" }, value: { hi: "14 जनवरी 2025 (प्रथम शाही स्नान)", en: "14 January 2025 (First Shahi Snan)" } },
-      { label: { hi: "मौनी अमावस्या:", en: "Mauni Amavasya:" }, value: { hi: "1 फरवरी 2025 (मुख्य स्नान दिवस)", en: "1 February 2025 (Main bathing day)" } },
-      { label: { hi: "बसंत पंचमी:", en: "Basant Panchami:" }, value: { hi: "26 फरवरी 2025 (समापन स्नान)", en: "26 February 2025 (Closing bath)" } },
+    typesHeading: { hi: "कुम्भ के प्रकार", en: "Types of Kumbh Mela" },
+    types: [
+      {
+        name: { hi: "महाकुम्भ", en: "Maha Kumbh" },
+        description: {
+          hi: "प्रयागराज में हर 144 वर्ष (12 पूर्ण कुम्भ) में एक बार आयोजित सबसे विशाल आयोजन। 2025 का कुम्भ महाकुम्भ था।",
+          en: "The grandest gathering, held at Prayagraj once every 144 years (after 12 Purna Kumbhs). The 2025 Kumbh was a Maha Kumbh.",
+        },
+      },
+      {
+        name: { hi: "पूर्ण कुम्भ", en: "Purna Kumbh" },
+        description: {
+          hi: "प्रत्येक स्थान पर हर 12 वर्ष में आयोजित होने वाला मुख्य कुम्भ मेला।",
+          en: "The main Kumbh Mela held at each of the four sites once every 12 years.",
+        },
+      },
+      {
+        name: { hi: "अर्धकुम्भ", en: "Ardh Kumbh" },
+        description: {
+          hi: "हरिद्वार और प्रयागराज में हर 6 वर्ष (दो पूर्ण कुम्भ के बीच) में आयोजित होने वाला मेला।",
+          en: "Held every 6 years at Haridwar and Prayagraj, midway between two Purna Kumbhs.",
+        },
+      },
     ],
+    locationsHeading: { hi: "कुम्भ के चार पवित्र स्थान", en: "The Four Sacred Kumbh Sites" },
+    locations: [
+      {
+        name: { hi: "प्रयागराज", en: "Prayagraj" },
+        river: { hi: "त्रिवेणी संगम (गंगा-यमुना-सरस्वती)", en: "Triveni Sangam (Ganga-Yamuna-Saraswati)" },
+      },
+      {
+        name: { hi: "हरिद्वार", en: "Haridwar" },
+        river: { hi: "गंगा नदी", en: "River Ganga" },
+      },
+      {
+        name: { hi: "उज्जैन", en: "Ujjain" },
+        river: { hi: "क्षिप्रा नदी", en: "River Shipra" },
+      },
+      {
+        name: { hi: "नासिक", en: "Nashik" },
+        river: { hi: "गोदावरी नदी", en: "River Godavari" },
+      },
+    ],
+    cycleNote: {
+      hi: "बृहस्पति और सूर्य की राशि के अनुसार यह चारों स्थान बारी-बारी से हर लगभग 3 वर्ष में कुम्भ मेले की मेज़बानी करते हैं, इस तरह हर स्थान पर 12 वर्ष में एक बार कुम्भ लौटता है।",
+      en: "Based on the positions of Jupiter and the Sun, these four sites take turns hosting the Kumbh roughly every 3 years, so the Kumbh returns to each site once every 12 years.",
+    },
+    eventsHeading: { hi: "कुम्भ मेले के आयोजन", en: "Kumbh Mela Events" },
+    eventsLoading: { hi: "लोड हो रहा है...", en: "Loading..." },
+    eventsError: { hi: "आयोजन लोड नहीं हो पाए।", en: "Could not load events." },
+    eventsEmpty: { hi: "अभी कोई आयोजन नहीं जोड़ा गया है।", en: "No events added yet." },
+    upcomingBadge: { hi: "आगामी", en: "Upcoming" },
+    completedBadge: { hi: "संपन्न", en: "Completed" },
+    approximateNote: { hi: "(अनुमानित)", en: "(approximate)" },
     attractionsHeading: { hi: "आकर्षण", en: "Attractions" },
     attractions: [
       { hi: "साधु-संतों का शाही स्नान", en: "The royal bath of saints and sages" },
@@ -414,6 +463,20 @@ export const translations = {
     password: { hi: "पासवर्ड", en: "Password" },
     submit: { hi: "लॉगिन करें", en: "Login" },
     invalidCredentials: { hi: "गलत ईमेल या पासवर्ड", en: "Invalid email or password" },
+    noAccount: { hi: "खाता नहीं है?", en: "Don't have an account?" },
+    registerLink: { hi: "रजिस्टर करें", en: "Register" },
+  },
+
+  register: {
+    title: { hi: "नया खाता बनाएँ", en: "Create an Account" },
+    name: { hi: "नाम", en: "Name" },
+    email: { hi: "ईमेल", en: "Email" },
+    password: { hi: "पासवर्ड", en: "Password" },
+    passwordHint: { hi: "कम से कम 6 अक्षर", en: "At least 6 characters" },
+    submit: { hi: "खाता बनाएँ", en: "Create Account" },
+    haveAccount: { hi: "पहले से खाता है?", en: "Already have an account?" },
+    loginLink: { hi: "लॉगिन करें", en: "Log in" },
+    genericError: { hi: "खाता नहीं बन सका। कृपया पुनः प्रयास करें।", en: "Could not create account. Please try again." },
   },
 
   shlokas: {
@@ -504,6 +567,19 @@ export const translations = {
     noApprovedShlokas: { hi: "कोई स्वीकृत श्लोक नहीं है।", en: "No approved shlokas." },
     filterPlaceholder: { hi: "खोजें / फ़िल्टर करें...", en: "Search / filter..." },
     allCategories: { hi: "सभी श्रेणियां", en: "All categories" },
+    manageKumbhHeading: { hi: "कुम्भ आयोजन प्रबंधित करें", en: "Manage Kumbh Events" },
+    addKumbhEvent: { hi: "नया कुम्भ आयोजन जोड़ें", en: "Add New Kumbh Event" },
+    kumbhLocation: { hi: "स्थान (English)", en: "Location (English)" },
+    kumbhLocationHindi: { hi: "स्थान (Hindi)", en: "Location (Hindi)" },
+    kumbhType: { hi: "प्रकार (English)", en: "Type (English)" },
+    kumbhTypeHindi: { hi: "प्रकार (Hindi)", en: "Type (Hindi)" },
+    kumbhYear: { hi: "वर्ष", en: "Year" },
+    kumbhStartDate: { hi: "आरंभ तिथि (वैकल्पिक)", en: "Start Date (optional)" },
+    kumbhEndDate: { hi: "समाप्ति तिथि (वैकल्पिक)", en: "End Date (optional)" },
+    kumbhDescription: { hi: "विवरण Hindi (वैकल्पिक)", en: "Description Hindi (optional)" },
+    kumbhDescriptionEnglish: { hi: "विवरण English (वैकल्पिक)", en: "Description English (optional)" },
+    kumbhApproximate: { hi: "तिथि अनुमानित है", en: "Date is approximate" },
+    noKumbhEvents: { hi: "कोई आयोजन नहीं है।", en: "No events yet." },
   },
 };
 

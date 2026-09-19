@@ -20,6 +20,7 @@ import ComparisonTable from "./ComparisonTable";
 import SourceReferences from "./SourceReferences";
 import TraditionLabel from "./TraditionLabel";
 import NoteBox from "./NoteBox";
+import TempleVisitButton from "@/components/yatra/TempleVisitButton";
 
 import { overviewCategories, exploreCategories, learningPath } from "@/data/hindu-dharma/overview";
 import { whatIsDharma, majorConcepts, glossaryTerms, shrutiSmriti } from "@/data/hindu-dharma/concepts";
@@ -423,7 +424,9 @@ export default function HinduDharmaDiary() {
               deity={d.deity}
               temple={d.temple}
               info={d.info}
-            />
+            >
+              <TempleVisitButton placeId={d.id} placeName={t(d.name)} />
+            </SacredPlaceCard>
           ))}
         </div>
 
@@ -433,7 +436,9 @@ export default function HinduDharmaDiary() {
         <p className="text-sm text-gray-500 mb-6 max-w-2xl">{t(chotaCharDhamIntro)}</p>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {chotaCharDham.map((d) => (
-            <SacredPlaceCard key={d.id} name={d.name} location={d.location} deity={d.associated} info={d.info} />
+            <SacredPlaceCard key={d.id} name={d.name} location={d.location} deity={d.associated} info={d.info}>
+              <TempleVisitButton placeId={`chota-${d.id}`} placeName={t(d.name)} />
+            </SacredPlaceCard>
           ))}
         </div>
       </Section>
@@ -448,6 +453,7 @@ export default function HinduDharmaDiary() {
               </p>
               <p className="font-semibold text-navy text-sm">{t(j.name)}</p>
               <p className="text-xs text-gray-500">{t(j.location)}</p>
+              <TempleVisitButton placeId={j.id} placeName={t(j.name)} />
             </div>
           ))}
         </div>
@@ -466,6 +472,7 @@ export default function HinduDharmaDiary() {
                 <p className="text-sm text-gray-600 mb-2">{t({ hi: "भैरव", en: "Bhairava" })}: {t(s.bhairava)}</p>
               )}
               <p className="text-sm text-gray-500">{t(s.note)}</p>
+              <TempleVisitButton placeId={`peetha-${s.id}`} placeName={t(s.name)} />
             </div>
           ))}
         </div>
@@ -503,7 +510,9 @@ export default function HinduDharmaDiary() {
               deity={temple.deity}
               info={temple.why}
               festival={temple.festival}
-            />
+            >
+              <TempleVisitButton placeId={temple.id} placeName={t(temple.name)} />
+            </SacredPlaceCard>
           ))}
         </div>
       </Section>
