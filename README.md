@@ -13,7 +13,7 @@ Prayagraj ke religious/tourist places (temples, ghats, ashrams) ki directory. Pr
 cd backend
 cp .env.example .env   # fill in MongoDB, JWT, admin, Cloudinary credentials
 npm install
-npm run seed            # one-time: loads the original temple list into MongoDB
+npm run seed            # one-time: loads 38 real Prayagraj places (Temple/Ghat/Ashram/Historical/Other) into MongoDB, a few marked "featured"
 npm run dev             # starts API on http://localhost:5000
 ```
 
@@ -35,6 +35,10 @@ The navbar has a हिं/EN toggle. It switches all static UI text (via `front
 ## Feature: Shlokas (sacred verses)
 
 Anyone can add a shloka at `/shlokas/add` (Name and Email required, mobile optional — no login needed). It goes into a moderation queue just like places; the admin dashboard has a "Pending Shlokas" panel to approve/reject, plus a direct-add form for the admin (auto-approved). Approved shlokas show at `/shlokas`. A shloka can optionally have a scheduled date — on that date, a popup with the shloka shows on the homepage every time it loads.
+
+## Feature: site-wide running background
+
+The admin dashboard has a "Homepage Hero (Slideshow)" panel — upload any number of photos or short videos. `FixedBackground.tsx` renders this slideshow (crossfade every 3s, videos autoplay muted/looped) pinned behind the entire page, on every page except the admin dashboard, login, and the two submission forms (`/places/add`, `/shlokas/add`) — controlled via `<Layout noBackground>`. Content-heavy pages (About, Sangam, Kumbh, Temples, Shlokas, Blog, temple/post detail) wrap their text in a translucent cream card (`bg-cream/92 backdrop-blur-sm`) so it stays readable over the moving background. With no slides uploaded yet, it falls back to a single default photo.
 
 ## Feature: featured places/shlokas on homepage + category filter
 

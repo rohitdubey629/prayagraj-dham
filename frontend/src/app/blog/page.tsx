@@ -11,7 +11,7 @@ export default function Blog() {
   return (
     <Layout>
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-prayagraj-primary mb-8">{t(translations.blog.title)}</h1>
+        <h1 className="inline-block bg-cream/92 backdrop-blur-sm rounded-xl px-6 py-3 shadow-lg text-3xl font-bold text-prayagraj-primary mb-8">{t(translations.blog.title)}</h1>
         <PostList />
       </div>
     </Layout>

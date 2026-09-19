@@ -44,7 +44,7 @@ export default function Navbar({
   }, []);
 
   return (
-    <nav className="bg-bhagwa-DEFAULT text-white shadow-lg">
+    <nav className="sticky top-0 z-50 text-white bg-bhagwa-dark shadow-lg">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         {/* Logo */}
         <Link href="/" className="text-2xl font-bold flex items-center">
@@ -62,43 +62,46 @@ export default function Navbar({
 
         {/* Navigation Links */}
         <div className="hidden md:flex items-center space-x-6">
-          <Link href="/" className="hover:text-amber-200 transition">
+          <Link href="/" className="hover:text-gold transition">
             {t(nav.home)}
           </Link>
-          <Link href="/sangam" className="hover:text-amber-200 transition">
+          <Link href="/sangam" className="hover:text-gold transition">
             {t(nav.sangam)}
           </Link>
-          <Link href="/kumbh" className="hover:text-amber-200 transition">
+          <Link href="/kumbh" className="hover:text-gold transition">
             {t(nav.kumbh)}
           </Link>
-          <Link href="/blog" className="hover:text-amber-200 transition">
+          <Link href="/blog" className="hover:text-gold transition">
             {t(nav.blog)}
           </Link>
-          <Link href="/temples" className="hover:text-amber-200 transition">
+          <Link href="/temples" className="hover:text-gold transition">
             {t(nav.temples)}
+          </Link>
+          <Link href="/hindu-dharma-diary" className="hover:text-gold transition">
+            {t(nav.dharmaDiary)}
           </Link>
           {/* Add dropdown: Add a Place / Add a Shloka */}
           <div className="relative" ref={addMenuRef}>
             <button
               onClick={() => setAddMenuOpen((prev) => !prev)}
-              className="flex items-center gap-1 hover:text-amber-200 transition"
+              className="flex items-center gap-1 hover:text-gold transition"
             >
               {t(nav.addMenu)}
               <ChevronDown size={16} className={`transition-transform ${isAddMenuOpen ? "rotate-180" : ""}`} />
             </button>
             {isAddMenuOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-white text-bhagwa-dark rounded-lg shadow-lg overflow-hidden z-50">
+              <div className="absolute right-0 mt-2 w-48 bg-cream text-bhagwa-dark rounded-lg shadow-lg overflow-hidden z-50 border border-gold/30">
                 <Link
                   href="/places/add"
                   onClick={() => setAddMenuOpen(false)}
-                  className="block px-4 py-2 hover:bg-amber-50 transition"
+                  className="block px-4 py-2 hover:bg-gold/10 transition"
                 >
                   {t(nav.addPlace)}
                 </Link>
                 <Link
                   href="/shlokas/add"
                   onClick={() => setAddMenuOpen(false)}
-                  className="block px-4 py-2 hover:bg-amber-50 transition"
+                  className="block px-4 py-2 hover:bg-gold/10 transition"
                 >
                   {t(sh.addLink)}
                 </Link>
@@ -107,19 +110,19 @@ export default function Navbar({
           </div>
 
           {isAdmin && (
-            <Link href="/admin" className="hover:text-amber-200 transition">
+            <Link href="/admin" className="hover:text-gold transition">
               {t(nav.admin)}
             </Link>
           )}
           {isAuthenticated ? (
             <button
               onClick={handleLogout}
-              className="hover:text-amber-200 transition"
+              className="hover:text-gold transition"
             >
               {t(nav.logout)}
             </button>
           ) : (
-            <Link href="/login" className="hover:text-amber-200 transition">
+            <Link href="/login" className="hover:text-gold transition">
               {t(nav.login)}
             </Link>
           )}
@@ -130,45 +133,48 @@ export default function Navbar({
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <div className="md:hidden px-4 pb-4 space-y-3">
-          <Link href="/" onClick={toggleMobileMenu} className="block hover:text-amber-200">
+          <Link href="/" onClick={toggleMobileMenu} className="block hover:text-gold">
             {t(nav.home)}
           </Link>
-          <Link href="/sangam" onClick={toggleMobileMenu} className="block hover:text-amber-200">
+          <Link href="/sangam" onClick={toggleMobileMenu} className="block hover:text-gold">
             {t(nav.sangam)}
           </Link>
-          <Link href="/kumbh" onClick={toggleMobileMenu} className="block hover:text-amber-200">
+          <Link href="/kumbh" onClick={toggleMobileMenu} className="block hover:text-gold">
             {t(nav.kumbh)}
           </Link>
-          <Link href="/blog" onClick={toggleMobileMenu} className="block hover:text-amber-200">
+          <Link href="/blog" onClick={toggleMobileMenu} className="block hover:text-gold">
             {t(nav.blog)}
           </Link>
-          <Link href="/temples" onClick={toggleMobileMenu} className="block hover:text-amber-200">
+          <Link href="/temples" onClick={toggleMobileMenu} className="block hover:text-gold">
             {t(nav.temples)}
           </Link>
-          <div className="pt-2 border-t border-white/20">
-            <p className="text-sm text-amber-200 mb-1">{t(nav.addMenu)}</p>
-            <Link href="/places/add" onClick={toggleMobileMenu} className="block hover:text-amber-200 pl-2">
+          <Link href="/hindu-dharma-diary" onClick={toggleMobileMenu} className="block hover:text-gold">
+            {t(nav.dharmaDiary)}
+          </Link>
+          <div className="pt-2 border-t border-gold/20">
+            <p className="text-sm text-gold mb-1">{t(nav.addMenu)}</p>
+            <Link href="/places/add" onClick={toggleMobileMenu} className="block hover:text-gold pl-2">
               {t(nav.addPlace)}
             </Link>
-            <Link href="/shlokas/add" onClick={toggleMobileMenu} className="block hover:text-amber-200 pl-2">
+            <Link href="/shlokas/add" onClick={toggleMobileMenu} className="block hover:text-gold pl-2">
               {t(sh.addLink)}
             </Link>
           </div>
 
           {isAdmin && (
-            <Link href="/admin" onClick={toggleMobileMenu} className="block hover:text-amber-200">
+            <Link href="/admin" onClick={toggleMobileMenu} className="block hover:text-gold">
               {t(nav.admin)}
             </Link>
           )}
           {isAuthenticated ? (
             <button
               onClick={handleLogout}
-              className="block text-left w-full hover:text-amber-200"
+              className="block text-left w-full hover:text-gold"
             >
               {t(nav.logout)}
             </button>
           ) : (
-            <Link href="/login" onClick={toggleMobileMenu} className="block hover:text-amber-200">
+            <Link href="/login" onClick={toggleMobileMenu} className="block hover:text-gold">
               {t(nav.login)}
             </Link>
           )}

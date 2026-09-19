@@ -24,6 +24,7 @@ export interface IPlace extends Document {
   specialFeatures?: string[];
   specialFeaturesEnglish?: string[];
   imageUrl?: string;
+  images?: string[];
   mapsLink?: string;
   submittedByName?: string;
   submittedByContact?: string;
@@ -55,6 +56,7 @@ const PlaceSchema = new Schema<IPlace>(
     specialFeatures: { type: [String], default: undefined },
     specialFeaturesEnglish: { type: [String], default: undefined },
     imageUrl: { type: String },
+    images: { type: [String], default: undefined },
     mapsLink: { type: String },
     submittedByName: { type: String },
     submittedByContact: { type: String },

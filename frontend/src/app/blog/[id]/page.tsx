@@ -1,8 +1,8 @@
 "use client";
+import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { useSelector } from "react-redux";
 import Layout from "@/components/Layout";
-import { RootState } from "../../../lib/store";
+import { getPost, Post } from "@/lib/api";
 import Image from "next/image";
 import { useTranslation } from "@/lib/useTranslation";
 import { translations } from "@/lib/translations";
@@ -11,14 +11,19 @@ import { translations } from "@/lib/translations";
 export default function PostDetail() {
   const params = useParams() as { id: string };
   const { id } = params;
-  const { posts } = useSelector((state: RootState) => state.posts);
+  const [post, setPost] = useState<Post | null>(null);
+  const [notFound, setNotFound] = useState(false);
   const { t } = useTranslation();
   const b = translations.blog;
   const pl = translations.postList;
 
-  const post = posts.find((p) => p.id === Number(id));
+  useEffect(() => {
+    getPost(id)
+      .then(setPost)
+      .catch(() => setNotFound(true));
+  }, [id]);
 
-  if (!post) {
+  if (notFound) {
     return (
       <Layout>
         <div className="container mx-auto px-4 py-12 text-center">
@@ -30,24 +35,28 @@ export default function PostDetail() {
     );
   }
 
+  if (!post) {
+    return null;
+  }
+
   return (
     <Layout>
-      <div className="max-w-4xl mx-auto px-4 py-12">
+      <div className="max-w-4xl mx-auto px-4 py-12 bg-cream/92 backdrop-blur-sm rounded-2xl shadow-lg md:p-10">
         <span className="inline-block px-3 py-1 bg-prayagraj-secondary text-white text-sm rounded-full mb-4">
           {post.category}
         </span>
         <h1 className="text-3xl font-bold text-prayagraj-primary mb-4">
           {post.title}
         </h1>
-        <div className="flex items-center text-white mb-8">
+        <div className="flex items-center text-gray-500 mb-8">
           <span>{t(pl.by)} {post.author}</span>
           <span className="mx-2">•</span>
-          <span>{post.date}</span>
+          <span>{new Date(post.date).toLocaleDateString()}</span>
         </div>
 
-        <div className="relative h-64 w-full mb-8 rounded-lg overflow-hidden">
+        <div className="relative h-96 md:h-[28rem] w-full mb-8 rounded-lg overflow-hidden">
           <Image
-            src={post.image}
+            src={post.image || "/images/mahakumbh.jpg"}
             alt={post.title}
             fill
             className="object-cover"

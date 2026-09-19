@@ -14,7 +14,7 @@ export default function TempleCard({ temple }: { temple: Place }) {
 
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition duration-300 border border-amber-100">
-      <div className="relative h-48 w-full bg-amber-50">
+      <div className="relative h-64 w-full bg-amber-50">
         {temple.imageUrl ? (
           <Image
             src={temple.imageUrl}

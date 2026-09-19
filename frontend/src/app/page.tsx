@@ -1,7 +1,7 @@
 // app/page.js
 import Layout from "../components/Layout";
 import Hero from "../components/Hero";
-import FeaturedPlaces from "../components/FeaturedPlaces";
+import CategorySliders from "../components/CategorySliders";
 import KumbhHighlights from "../components/KumbhHighlights";
 import DailyDarshan from "../components/DailyDarshan";
 import FeaturedShlokas from "../components/FeaturedShlokas";
@@ -13,7 +13,7 @@ export default function Home() {
     <Layout>
       <ShlokaPopup />
       <Hero />
-      <FeaturedPlaces />
+      <CategorySliders />
       <KumbhHighlights />
       <DailyDarshan />
       <FeaturedShlokas />

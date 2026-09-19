@@ -1,8 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { addPost, updatePost, deletePost } from '../lib/postsSlice'
+import { useSelector } from 'react-redux'
 import { RootState } from '../lib/store'
 import {
   getPendingPlaces,
@@ -18,28 +17,68 @@ import {
   toggleFeaturedPlace,
   getApprovedShlokasAdmin,
   toggleFeaturedShloka,
+  getPostsAdmin,
+  createPost,
+  updatePost,
+  deletePost,
+  toggleFeaturedPost,
+  Post,
+  PostInput,
+  getHeroSlides,
+  addHeroSlide,
+  deleteHeroSlide,
+  HeroSlide,
 } from '../lib/api'
 import { useTranslation } from '../lib/useTranslation'
 import { translations } from '../lib/translations'
 
-type Post = {
-  id: number
-  title: string
-  content: string
-  category: string
-  image: string
-  author: string
-  date: string
-}
-
 
 export default function AdminDashboard() {
-  const { posts } = useSelector((state: RootState) => state.posts)
   const { token } = useSelector((state: RootState) => state.auth)
-  const dispatch = useDispatch()
   const { t } = useTranslation()
   const ad = translations.admin
   const sh = translations.shlokas
+
+  const [heroSlides, setHeroSlides] = useState<HeroSlide[]>([])
+  const [heroStatus, setHeroStatus] = useState<'loading' | 'ready' | 'error'>('loading')
+  const [heroUploading, setHeroUploading] = useState(false)
+  const [heroError, setHeroError] = useState('')
+
+  const loadHeroSlides = () => {
+    setHeroStatus('loading')
+    getHeroSlides()
+      .then((data) => {
+        setHeroSlides(data)
+        setHeroStatus('ready')
+      })
+      .catch(() => setHeroStatus('error'))
+  }
+
+  useEffect(() => {
+    loadHeroSlides()
+  }, [])
+
+  const handleAddHeroSlide = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    e.target.value = ''
+    if (!file || !token) return
+    setHeroUploading(true)
+    setHeroError('')
+    try {
+      const slide = await addHeroSlide(file, token)
+      setHeroSlides((prev) => [...prev, slide])
+    } catch (err) {
+      setHeroError(err instanceof Error ? err.message : t(ad.heroUploadError))
+    } finally {
+      setHeroUploading(false)
+    }
+  }
+
+  const handleDeleteHeroSlide = async (id: string) => {
+    if (!token) return
+    await deleteHeroSlide(id, token)
+    setHeroSlides((prev) => prev.filter((s) => s._id !== id))
+  }
 
   const [pendingPlaces, setPendingPlaces] = useState<Place[]>([])
   const [placesStatus, setPlacesStatus] = useState<'loading' | 'ready' | 'error'>('loading')
@@ -185,54 +224,134 @@ export default function AdminDashboard() {
     setApprovedShlokas((prev) => prev.map((s) => (s._id === id ? updated : s)))
   }
 
-  const [formData, setFormData] = useState({
-    id: 0,
+  const [posts, setPosts] = useState<Post[]>([])
+  const [postsStatus, setPostsStatus] = useState<'loading' | 'ready' | 'error'>('loading')
+
+  const loadPosts = () => {
+    if (!token) return
+    setPostsStatus('loading')
+    getPostsAdmin(token)
+      .then((data) => {
+        setPosts(data)
+        setPostsStatus('ready')
+      })
+      .catch(() => setPostsStatus('error'))
+  }
+
+  useEffect(() => {
+    loadPosts()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token])
+
+  const emptyFormData: PostInput = {
     title: '',
     content: '',
     category: '',
     image: '',
     author: '',
     date: new Date().toISOString().split('T')[0]
-  })
-  
-  const [isEditing, setIsEditing] = useState(false)
+  }
+
+  const [formData, setFormData] = useState<PostInput>(emptyFormData)
+  const [editingId, setEditingId] = useState<string | null>(null)
+  const isEditing = editingId !== null
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormData(prev => ({ ...prev, [name]: value }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (isEditing) {
-      dispatch(updatePost(formData))
+    if (!token) return
+    if (isEditing && editingId) {
+      await updatePost(editingId, formData, token)
     } else {
-      const newPost = {
-        ...formData,
-        id: Date.now()
-      }
-      dispatch(addPost(newPost))
+      await createPost(formData, token)
     }
     resetForm()
+    loadPosts()
   }
 
   const resetForm = () => {
-    setFormData({
-      id: 0,
-      title: '',
-      content: '',
-      category: '',
-      image: '',
-      author: '',
-      date: new Date().toISOString().split('T')[0]
-    })
-    setIsEditing(false)
+    setFormData(emptyFormData)
+    setEditingId(null)
   }
 
   const handleEdit = (post: Post) => {
-    setFormData(post)
-    setIsEditing(true)
+    setFormData({
+      title: post.title,
+      content: post.content,
+      category: post.category,
+      image: post.image || '',
+      author: post.author,
+      date: new Date(post.date).toISOString().split('T')[0],
+    })
+    setEditingId(post._id)
   }
+
+  const handleDeletePost = async (id: string) => {
+    if (!token) return
+    await deletePost(id, token)
+    setPosts((prev) => prev.filter((p) => p._id !== id))
+  }
+
+  const handleToggleFeaturedPost = async (id: string, featured: boolean) => {
+    if (!token) return
+    const updated = await toggleFeaturedPost(id, featured, token)
+    setPosts((prev) => prev.map((p) => (p._id === id ? updated : p)))
+  }
+
+  const [postFilter, setPostFilter] = useState('')
+  const filteredPosts = posts.filter((post) => {
+    const q = postFilter.trim().toLowerCase()
+    if (!q) return true
+    return post.title.toLowerCase().includes(q) || post.category.toLowerCase().includes(q)
+  })
+
+  const [pendingPlacesFilter, setPendingPlacesFilter] = useState('')
+  const filteredPendingPlaces = pendingPlaces.filter((place) => {
+    const q = pendingPlacesFilter.trim().toLowerCase()
+    if (!q) return true
+    return (
+      place.name.toLowerCase().includes(q) ||
+      place.nameHindi.toLowerCase().includes(q) ||
+      place.category.toLowerCase().includes(q) ||
+      place.location.toLowerCase().includes(q)
+    )
+  })
+
+  const [pendingShlokasFilter, setPendingShlokasFilter] = useState('')
+  const filteredPendingShlokas = pendingShlokas.filter((shloka) => {
+    const q = pendingShlokasFilter.trim().toLowerCase()
+    if (!q) return true
+    return (
+      shloka.text.toLowerCase().includes(q) ||
+      (shloka.submittedByName || '').toLowerCase().includes(q) ||
+      (shloka.submittedByEmail || '').toLowerCase().includes(q)
+    )
+  })
+
+  const [approvedPlacesFilter, setApprovedPlacesFilter] = useState('')
+  const [approvedPlacesCategory, setApprovedPlacesCategory] = useState('')
+  const approvedPlacesCategories = Array.from(new Set(approvedPlaces.map((p) => p.category)))
+  const filteredApprovedPlaces = approvedPlaces.filter((place) => {
+    const q = approvedPlacesFilter.trim().toLowerCase()
+    const matchesQuery =
+      !q ||
+      place.name.toLowerCase().includes(q) ||
+      place.nameHindi.toLowerCase().includes(q) ||
+      place.location.toLowerCase().includes(q)
+    const matchesCategory = !approvedPlacesCategory || place.category === approvedPlacesCategory
+    return matchesQuery && matchesCategory
+  })
+
+  const [approvedShlokasFilter, setApprovedShlokasFilter] = useState('')
+  const filteredApprovedShlokas = approvedShlokas.filter((shloka) => {
+    const q = approvedShlokasFilter.trim().toLowerCase()
+    if (!q) return true
+    return shloka.text.toLowerCase().includes(q) || (shloka.source || '').toLowerCase().includes(q)
+  })
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -337,12 +456,33 @@ export default function AdminDashboard() {
         {/* Posts List */}
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-xl font-bold mb-4">{t(ad.managePosts)}</h2>
+
+          {postsStatus === 'loading' && <p className="text-gray-500">{t(ad.loading)}</p>}
+          {postsStatus === 'error' && <p className="text-red-600">{t(ad.pendingLoadError)}</p>}
+
+          {postsStatus === 'ready' && posts.length > 0 && (
+            <input
+              type="text"
+              value={postFilter}
+              onChange={(e) => setPostFilter(e.target.value)}
+              placeholder={t(ad.filterPlaceholder)}
+              className="w-full px-3 py-2 border rounded mb-4 text-sm"
+            />
+          )}
+
           <div className="space-y-4 max-h-96 overflow-y-auto">
-            {posts.map(post => (
-              <div key={post.id} className="border-b pb-4">
-                <h3 className="font-medium">{post.title}</h3>
-                <p className="text-sm text-gray-500 mb-2">{post.category} • {post.date}</p>
-                <div className="flex space-x-2">
+            {filteredPosts.map(post => (
+              <div key={post._id} className="border-b pb-4">
+                <div className="flex justify-between items-start gap-2">
+                  <h3 className="font-medium text-gray-900">{post.title}</h3>
+                  {post.featured && (
+                    <span className="text-xs bg-amber-500 text-white px-2 py-0.5 rounded whitespace-nowrap">
+                      {t(ad.featuredBadge)}
+                    </span>
+                  )}
+                </div>
+                <p className="text-sm text-gray-500 mb-2">{post.category} • {new Date(post.date).toLocaleDateString()}</p>
+                <div className="flex flex-wrap gap-2">
                   <button
                     onClick={() => handleEdit(post)}
                     className="text-sm bg-prayagraj-secondary text-white px-2 py-1 rounded"
@@ -350,10 +490,18 @@ export default function AdminDashboard() {
                     {t(ad.edit)}
                   </button>
                   <button
-                    onClick={() => dispatch(deletePost(post.id))}
+                    onClick={() => handleDeletePost(post._id)}
                     className="text-sm bg-red-500 text-white px-2 py-1 rounded"
                   >
                     {t(ad.delete)}
+                  </button>
+                  <button
+                    onClick={() => handleToggleFeaturedPost(post._id, !post.featured)}
+                    className={`text-sm px-2 py-1 rounded whitespace-nowrap ${
+                      post.featured ? 'bg-amber-500 text-white' : 'bg-gray-200 text-gray-700'
+                    }`}
+                  >
+                    {post.featured ? t(ad.unmarkFeatured) : t(ad.markFeatured)}
                   </button>
                 </div>
               </div>
@@ -372,16 +520,27 @@ export default function AdminDashboard() {
         {placesStatus === 'error' && (
           <p className="text-red-600">{t(ad.pendingLoadError)}</p>
         )}
+
+        {placesStatus === 'ready' && pendingPlaces.length > 0 && (
+          <input
+            type="text"
+            value={pendingPlacesFilter}
+            onChange={(e) => setPendingPlacesFilter(e.target.value)}
+            placeholder={t(ad.filterPlaceholder)}
+            className="w-full px-3 py-2 border rounded mb-4 text-sm"
+          />
+        )}
+
         {placesStatus === 'ready' && pendingPlaces.length === 0 && (
           <p className="text-gray-500">{t(ad.noPending)}</p>
         )}
 
         <div className="space-y-4">
-          {pendingPlaces.map((place) => (
+          {filteredPendingPlaces.map((place) => (
             <div key={place._id} className="border rounded-lg p-4">
               <div className="flex justify-between items-start">
                 <div>
-                  <h3 className="font-bold text-lg">
+                  <h3 className="font-bold text-lg text-gray-900">
                     {place.name} <span className="text-gray-500">({place.nameHindi})</span>
                   </h3>
                   <p className="text-sm text-gray-500">
@@ -486,12 +645,23 @@ export default function AdminDashboard() {
 
           {shlokasStatus === 'loading' && <p className="text-gray-500">{t(ad.loading)}</p>}
           {shlokasStatus === 'error' && <p className="text-red-600">{t(ad.pendingLoadError)}</p>}
+
+          {shlokasStatus === 'ready' && pendingShlokas.length > 0 && (
+            <input
+              type="text"
+              value={pendingShlokasFilter}
+              onChange={(e) => setPendingShlokasFilter(e.target.value)}
+              placeholder={t(ad.filterPlaceholder)}
+              className="w-full px-3 py-2 border rounded mb-4 text-sm"
+            />
+          )}
+
           {shlokasStatus === 'ready' && pendingShlokas.length === 0 && (
             <p className="text-gray-500">{t(sh.adminNoPending)}</p>
           )}
 
           <div className="space-y-4 max-h-96 overflow-y-auto">
-            {pendingShlokas.map((shloka) => (
+            {filteredPendingShlokas.map((shloka) => (
               <div key={shloka._id} className="border rounded-lg p-4">
                 <blockquote className="italic" style={{ whiteSpace: 'pre-line' }}>
                   &quot;{shloka.text}&quot;
@@ -544,15 +714,40 @@ export default function AdminDashboard() {
 
         {approvedPlacesStatus === 'loading' && <p className="text-gray-500">{t(ad.loading)}</p>}
         {approvedPlacesStatus === 'error' && <p className="text-red-600">{t(ad.pendingLoadError)}</p>}
+
+        {approvedPlacesStatus === 'ready' && approvedPlaces.length > 0 && (
+          <div className="flex gap-3 mb-4">
+            <input
+              type="text"
+              value={approvedPlacesFilter}
+              onChange={(e) => setApprovedPlacesFilter(e.target.value)}
+              placeholder={t(ad.filterPlaceholder)}
+              className="flex-1 px-3 py-2 border rounded text-sm"
+            />
+            <select
+              value={approvedPlacesCategory}
+              onChange={(e) => setApprovedPlacesCategory(e.target.value)}
+              className="px-3 py-2 border rounded text-sm"
+            >
+              <option value="">{t(ad.allCategories)}</option>
+              {approvedPlacesCategories.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+
         {approvedPlacesStatus === 'ready' && approvedPlaces.length === 0 && (
           <p className="text-gray-500">{t(ad.noApprovedPlaces)}</p>
         )}
 
         <div className="space-y-3 max-h-96 overflow-y-auto">
-          {approvedPlaces.map((place) => (
+          {filteredApprovedPlaces.map((place) => (
             <div key={place._id} className="border rounded-lg p-3 flex justify-between items-center">
               <div>
-                <h3 className="font-medium">
+                <h3 className="font-medium text-gray-900">
                   {place.name} <span className="text-gray-500">({place.nameHindi})</span>
                 </h3>
                 <p className="text-sm text-gray-500">{place.category} • {place.location}</p>
@@ -576,12 +771,23 @@ export default function AdminDashboard() {
 
         {approvedShlokasStatus === 'loading' && <p className="text-gray-500">{t(ad.loading)}</p>}
         {approvedShlokasStatus === 'error' && <p className="text-red-600">{t(ad.pendingLoadError)}</p>}
+
+        {approvedShlokasStatus === 'ready' && approvedShlokas.length > 0 && (
+          <input
+            type="text"
+            value={approvedShlokasFilter}
+            onChange={(e) => setApprovedShlokasFilter(e.target.value)}
+            placeholder={t(ad.filterPlaceholder)}
+            className="w-full px-3 py-2 border rounded mb-4 text-sm"
+          />
+        )}
+
         {approvedShlokasStatus === 'ready' && approvedShlokas.length === 0 && (
           <p className="text-gray-500">{t(ad.noApprovedShlokas)}</p>
         )}
 
         <div className="space-y-3 max-h-96 overflow-y-auto">
-          {approvedShlokas.map((shloka) => (
+          {filteredApprovedShlokas.map((shloka) => (
             <div key={shloka._id} className="border rounded-lg p-3 flex justify-between items-center gap-3">
               <blockquote className="italic text-sm flex-1" style={{ whiteSpace: 'pre-line' }}>
                 &quot;{shloka.text}&quot;
@@ -593,6 +799,49 @@ export default function AdminDashboard() {
                 }`}
               >
                 {shloka.featured ? t(ad.unmarkFeatured) : t(ad.markFeatured)}
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Homepage Hero slideshow management */}
+      <div className="bg-white p-6 rounded-lg shadow-md mt-8">
+        <h2 className="text-xl font-bold mb-1">{t(ad.manageHeroHeading)}</h2>
+        <p className="text-sm text-gray-500 mb-4">{t(ad.heroIntro)}</p>
+
+        <label className="block text-gray-700 mb-2">{t(ad.heroUploadLabel)}</label>
+        <input
+          type="file"
+          accept="image/*,video/*"
+          onChange={handleAddHeroSlide}
+          disabled={heroUploading}
+          className="w-full mb-4"
+        />
+        {heroUploading && <p className="text-gray-500 text-sm mb-2">{t(ad.heroUploading)}</p>}
+        {heroError && <p className="text-red-600 text-sm mb-2">{heroError}</p>}
+
+        {heroStatus === 'loading' && <p className="text-gray-500">{t(ad.loading)}</p>}
+        {heroStatus === 'error' && <p className="text-red-600">{t(ad.pendingLoadError)}</p>}
+        {heroStatus === 'ready' && heroSlides.length === 0 && (
+          <p className="text-gray-500">{t(ad.heroEmpty)}</p>
+        )}
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {heroSlides.map((slide) => (
+            <div key={slide._id} className="relative rounded-lg overflow-hidden border h-32 bg-gray-100">
+              {slide.mediaType === 'video' ? (
+                <video src={slide.mediaUrl} className="w-full h-full object-cover" muted />
+              ) : (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={slide.mediaUrl} alt="Hero slide" className="w-full h-full object-cover" />
+              )}
+              <button
+                onClick={() => handleDeleteHeroSlide(slide._id)}
+                className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm leading-none shadow"
+                aria-label={t(ad.heroDelete)}
+              >
+                ×
               </button>
             </div>
           ))}
