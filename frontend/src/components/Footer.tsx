@@ -42,19 +42,9 @@ export default function Footer() {
             </div>
             <p className="mt-2 text-cream/70">{t(f.tagline)}</p>
           </div>
-<<<<<<< HEAD:frontend/src/components/Footer.tsx
 
           <div className="flex space-x-6">
             <Link href="/about" className="hover:text-gold transition">{t(f.about)}</Link>
-=======
-          
-          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
-            <Link href="/about" className="hover:text-amber-200 transition">हमारे बारे में</Link>
-            <Link href="/jhusi" className="hover:text-amber-200 transition">झूंसी क्षेत्र</Link>
-            <Link href="/yatra-suvidha" className="hover:text-amber-200 transition">यात्रा सुविधा</Link>
-            <Link href="/temples" className="hover:text-amber-200 transition">मंदिर</Link>
-            <Link href="/darshan-schedule" className="hover:text-amber-200 transition">दर्शन कार्यक्रम</Link>
->>>>>>> master:src/components/Footer.tsx
           </div>
         </div>
 
